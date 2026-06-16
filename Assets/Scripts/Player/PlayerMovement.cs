@@ -464,7 +464,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void StopWallSlide()
     {
-        if (_isWallSlideFalling)
+        if (_isWallSliding)
         {
             _numberOfJumpsUsed++;
         }
@@ -641,6 +641,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else { return false; }
     }
+
 
     private void ResetWallJumpValues()
     {

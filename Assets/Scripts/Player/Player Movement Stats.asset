@@ -44,7 +44,7 @@ MonoBehaviour:
   WallSlideSpeed: 5
   WallSlideDecelerationSpeed: 50
   WallJumpDirection: {x: -20, y: 6.5}
-  WallJumpPostBufferTime: 0.804
+  WallJumpPostBufferTime: 0.125
   WallJumpGravityOnReleaseMultiplier: 1
   DashTime: 0.11
   DashSpeed: 40
