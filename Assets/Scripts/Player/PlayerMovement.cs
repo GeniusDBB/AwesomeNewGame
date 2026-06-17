@@ -13,6 +13,8 @@ public class PlayerMovement : MonoBehaviour
 
     private Rigidbody2D _rb;
 
+    private PlayerAnimator _animator;
+
     //movement vars
     public float HorizontalVelocity { get; private set; }
     private bool _isFacingRight;
@@ -81,6 +83,7 @@ public class PlayerMovement : MonoBehaviour
     {
         _isFacingRight = true;
         _rb = GetComponent<Rigidbody2D>();
+        _animator = GetComponent<PlayerAnimator>();
     }
     private void Update()
     {
@@ -337,6 +340,9 @@ public class PlayerMovement : MonoBehaviour
         _jumpBufferTimer = 0f;
         _numberOfJumpsUsed += numberOfJumpsUsed;
         VerticalVelocity = MoveStats.InitialJumpVelocitty;
+
+        //ANIMATOR JUMP
+        _animator?.OnJumpStarted();
     }
 
     private void Jump()
@@ -532,6 +538,9 @@ public class PlayerMovement : MonoBehaviour
         _wallJumpTime = 0f;
 
         VerticalVelocity = MoveStats.InitialWallJumpVelocitty;
+
+        //ANIMATOR JUMP
+        _animator?.OnJumpStarted();
 
         int dirMultiplier = 0;
         Vector2 hitPoint = _lastWallHit.collider.ClosestPoint(_bodyColl.bounds.center);
@@ -734,6 +743,10 @@ public class PlayerMovement : MonoBehaviour
         _dashDirection = closestDirection;
         _numberOfDashesUsed++;
         _isDashing = true;
+
+        // DASH ANIMATION
+        _animator?.OnDashStarted();
+
         _dashTimer = 0f;
         _dashOnGroundTimer = MoveStats.TimeBtwDashesOnGround;
 
@@ -965,4 +978,9 @@ public class PlayerMovement : MonoBehaviour
     }
 
     #endregion
+
+    public bool IsGround => _isGrounded;
+    public bool IsWallSliding => _isWallSliding;
+    public bool IsDashing => _isDashing;
+    public bool IsAirDashing => _isAirDashing;
 }
