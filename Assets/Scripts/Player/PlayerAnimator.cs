@@ -38,7 +38,7 @@ public class PlayerAnimator : MonoBehaviour
         _wasGrounded = _movement.IsGround;
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         if (_animator == null)
             return;
