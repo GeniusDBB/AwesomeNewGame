@@ -15,6 +15,12 @@ public class PlayerMovement : MonoBehaviour
 
     private PlayerAnimator _animator;
 
+    [Header("Ability Unlocks")]
+    public bool CanDoubleJump = false;
+    public bool CanWallSlide = false;
+    public bool canWallJump = false;
+    public bool CanDash = false;
+
     //movement vars
     public float HorizontalVelocity { get; private set; }
     private bool _isFacingRight;
@@ -156,11 +162,14 @@ public class PlayerMovement : MonoBehaviour
                 TurnCheck(moveInput);
 
                 float targetVelocity = 0f;
-                if (InputManager.RunIsHeld)
-                {
-                    targetVelocity = moveInput.x * MoveStats.MaxRunSpeed;
-                }
-                else { targetVelocity = moveInput.x * MoveStats.MaxWalkSpeed; }
+                //AKO ZELIM IMATI SPRINT OPCIJU
+
+                //if (InputManager.RunIsHeld)
+                //{
+                //    targetVelocity = moveInput.x * MoveStats.MaxRunSpeed;
+                //}
+                //else { targetVelocity = moveInput.x * MoveStats.MaxWalkSpeed; }
+                targetVelocity = moveInput.x * MoveStats.MaxWalkSpeed;
 
                 HorizontalVelocity = Mathf.Lerp(HorizontalVelocity, targetVelocity, acceleration * Time.fixedDeltaTime);
             }
@@ -309,7 +318,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //DOUBLE JUMP
-        else if (_jumpBufferTimer > 0f && (_isJumping || _isWallJumping || _isWallSlideFalling || _isAirDashing || _isDashFastFalling) && !_isTouchingWall && _numberOfJumpsUsed < MoveStats.NumberOfJumpsAllowed)
+        else if (_jumpBufferTimer > 0f && (_isJumping || _isWallJumping || _isWallSlideFalling || _isAirDashing || _isDashFastFalling) && !_isTouchingWall && _numberOfJumpsUsed < MoveStats.NumberOfJumpsAllowed && CanDoubleJump)
         {
             _isFastFalling = false;
             InitiateJump(1);
@@ -321,7 +330,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //AIR JUMP AFTER COYOTE TIME LAPSED
-        else if (_jumpBufferTimer > 0f && _isFalling && !_isWallSlideFalling && _numberOfJumpsUsed < MoveStats.NumberOfJumpsAllowed - 1)
+        else if (_jumpBufferTimer > 0f && _isFalling && !_isWallSlideFalling && _numberOfJumpsUsed < MoveStats.NumberOfJumpsAllowed - 1 && CanDoubleJump)
         {
             _isFastFalling = false;
             InitiateJump(2);
@@ -436,7 +445,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void WallSlideCheck()
     {
-        if (_isTouchingWall && !_isGrounded && !_isDashing)
+        if (_isTouchingWall && !_isGrounded && !_isDashing && CanWallSlide)
         {
             if (VerticalVelocity < 0f && !_isWallSliding)
             {
@@ -519,7 +528,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //actual jump with post wall jump buffer time
-        if (InputManager.JumpWasPressed && _wallJumpPostBufferTimer > 0f)
+        if (InputManager.JumpWasPressed && _wallJumpPostBufferTimer > 0f && canWallJump)
         {
             InitiateWallJump();
         }
@@ -671,7 +680,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void DashCheck()
     {
-        if (InputManager.DashWasPressed)
+        if (InputManager.DashWasPressed && CanDash)
         {
             //ground dash
             if (_isGrounded && _dashOnGroundTimer < 0 && !_isDashing)

@@ -15,8 +15,8 @@ public class PlayerMovementStats : ScriptableObject
     [Range(0.25f, 50f)] public float WallJumpMoveAcceleration = 5f;
     [Range(0.25f, 50f)] public float WallJumpMoveDeceleration = 5f;
 
-    [Header("Run")]
-    [Range(1f, 100f)] public float MaxRunSpeed = 20f;
+    //[Header("Run")]
+    //[Range(1f, 100f)] public float MaxRunSpeed = 20f;
 
     [Header("Grounded/Collision Checks")]
     public LayerMask GroundLayer;
