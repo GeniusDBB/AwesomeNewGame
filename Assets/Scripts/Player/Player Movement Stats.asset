@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Player Movement Stats
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovementStats
   MoveThreshold: 0.25
-  MaxWalkSpeed: 28.8
+  MaxWalkSpeed: 8.7
   GroundAcceleration: 5
   GroundDeceleration: 20
   AirAcceleration: 5
@@ -29,9 +29,9 @@ MonoBehaviour:
   HeadWidth: 0.75
   WallDetectionRayLength: 0.125
   WallDetectionRayHeightMultiplier: 0.9
-  JumpHeight: 4.12
+  JumpHeight: 4
   JumpHeightCompensationFactor: 1.054
-  TimeTillJumpApex: 0.35
+  TimeTillJumpApex: 0.45
   GravityOnReleaseMultiplier: 4.08
   MaxFallSpeed: 26
   NumberOfJumpsAllowed: 2
