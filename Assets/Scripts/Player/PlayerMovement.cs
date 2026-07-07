@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Rendering.UI;
 using System.Runtime.CompilerServices;
+using UnityEngine.XR;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -85,11 +86,16 @@ public class PlayerMovement : MonoBehaviour
     private float _dashFastFallTime;
     private float _dashFastFallReleaseSpeed;
 
+    //cinemachine
+    private float _fallSpeedYDampingChangeThreshold;
+
     private void Awake()
     {
         _isFacingRight = true;
         _rb = GetComponent<Rigidbody2D>();
         _animator = GetComponent<PlayerAnimator>();
+
+        _fallSpeedYDampingChangeThreshold = CameraManager.instance._fallSpeedDampingChangeThreshold;
     }
     private void Update()
     {
@@ -100,6 +106,17 @@ public class PlayerMovement : MonoBehaviour
 
         WallSlideCheck();
         DashCheck();
+
+        //if we are falling past a certain speed threshold
+        if (_rb.linearVelocity.y < _fallSpeedYDampingChangeThreshold && !CameraManager.instance.IsLerpingYDamping && !CameraManager.instance.LerpedFromPlayerFalling) CameraManager.instance.LerpYDamping(true);
+        //if we are standing still or moving up
+        if (_rb.linearVelocity.y >= 0f && !CameraManager.instance.IsLerpingYDamping && CameraManager.instance.LerpedFromPlayerFalling)
+        {
+            //reset so it can be called again
+            CameraManager.instance.LerpedFromPlayerFalling = false;
+
+            CameraManager.instance.LerpYDamping(false);
+        }
 
     }
     private void FixedUpdate()
@@ -246,6 +263,7 @@ public class PlayerMovement : MonoBehaviour
             }
 
             VerticalVelocity += MoveStats.Gravity * Time.fixedDeltaTime;
+
         }
     }
 
