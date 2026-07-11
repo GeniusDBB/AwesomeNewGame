@@ -9,8 +9,7 @@ public class PlayerMovement : MonoBehaviour
 {
     [Header("References")]
     public PlayerMovementStats MoveStats;
-    [SerializeField] private Collider2D _feetColl;
-    [SerializeField] private Collider2D _bodyColl;
+    [SerializeField] private Collider2D _collider;
 
     private Rigidbody2D _rb;
 
@@ -571,7 +570,7 @@ public class PlayerMovement : MonoBehaviour
         _animator?.OnJumpStarted();
 
         int dirMultiplier = 0;
-        Vector2 hitPoint = _lastWallHit.collider.ClosestPoint(_bodyColl.bounds.center);
+        Vector2 hitPoint = _lastWallHit.collider.ClosestPoint(_collider.bounds.center);
 
         if (hitPoint.x > transform.position.x)
         {
@@ -862,8 +861,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void IsGrounded()
     {
-        Vector2 boxCastOrigin = new Vector2(_feetColl.bounds.center.x, _feetColl.bounds.min.y);
-        Vector2 boxCastSize = new Vector2(_feetColl.bounds.size.x, MoveStats.GroundDetectionRayLength);
+        Bounds bounds = _collider.bounds;
+        Vector2 boxCastOrigin = new Vector2(bounds.center.x, bounds.min.y);
+        Vector2 boxCastSize = new Vector2(bounds.size.x * 0.8f, MoveStats.GroundDetectionRayLength);
 
         _groundHit = Physics2D.BoxCast(boxCastOrigin, boxCastSize, 0f, Vector2.down, MoveStats.GroundDetectionRayLength, MoveStats.GroundLayer);
         if (_groundHit.collider != null)
@@ -892,8 +892,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void BumpedHead()
     {
-        Vector2 boxCastOrigin = new Vector2(_feetColl.bounds.center.x, _bodyColl.bounds.max.y);
-        Vector2 boxCastSize = new Vector2(_feetColl.bounds.size.x * MoveStats.HeadWidth, MoveStats.HeadDetectionRayLength);
+        Bounds bounds = _collider.bounds;
+        Vector2 boxCastOrigin = new Vector2(bounds.center.x, bounds.max.y);
+        Vector2 boxCastSize = new Vector2(bounds.size.x * MoveStats.HeadWidth, MoveStats.HeadDetectionRayLength);
 
         _headHit = Physics2D.BoxCast(boxCastOrigin, boxCastSize, 0f, Vector2.up, MoveStats.HeadDetectionRayLength, MoveStats.GroundLayer);
         if (_headHit.collider != null)
@@ -924,16 +925,18 @@ public class PlayerMovement : MonoBehaviour
 
     private void IsTouchingWall()
     {
+        Bounds bounds = _collider.bounds;
+
         float originEndPoint = 0f;
         if (_isFacingRight)
         {
-            originEndPoint = _bodyColl.bounds.max.x;
+            originEndPoint = bounds.max.x;
         }
-        else { originEndPoint = _bodyColl.bounds.min.x; }
+        else { originEndPoint =bounds.min.x; }
 
-        float adjustedHeight = _bodyColl.bounds.size.y * MoveStats.WallDetectionRayHeightMultiplier;
+        float adjustedHeight = bounds.size.y * MoveStats.WallDetectionRayHeightMultiplier;
         
-        Vector2 boxCastOrigin = new Vector2(originEndPoint, _bodyColl.bounds.center.y);
+        Vector2 boxCastOrigin = new Vector2(originEndPoint,bounds.center.y);
         Vector2 boxCastSize = new Vector2(MoveStats.WallDetectionRayLength, adjustedHeight);
 
         _wallHit = Physics2D.BoxCast(boxCastOrigin, boxCastSize, 0f, transform.right, MoveStats.WallDetectionRayLength, MoveStats.GroundLayer);
