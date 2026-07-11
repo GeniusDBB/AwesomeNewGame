@@ -107,6 +107,7 @@ public class PlayerMovement : MonoBehaviour
         WallSlideCheck();
         DashCheck();
 
+        //--------CINEMACHINE----------
         //if we are falling past a certain speed threshold
         if (_rb.linearVelocity.y < _fallSpeedYDampingChangeThreshold && !CameraManager.instance.IsLerpingYDamping && !CameraManager.instance.LerpedFromPlayerFalling) CameraManager.instance.LerpYDamping(true);
         //if we are standing still or moving up
