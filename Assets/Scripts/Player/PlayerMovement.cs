@@ -88,6 +88,12 @@ public class PlayerMovement : MonoBehaviour
     //cinemachine
     private float _fallSpeedYDampingChangeThreshold;
 
+    //Ice Platform -> u IsGrounded() dodao sranja + fixed update
+    private bool _isOnIce;
+
+    //Moving Platform -> IsGrounded() + fixed update
+    private MovingPlatform _currentPlatform;
+
     private void Awake()
     {
         _isFacingRight = true;
@@ -130,8 +136,16 @@ public class PlayerMovement : MonoBehaviour
 
         if (_isGrounded)
         {
-            Move(MoveStats.GroundAcceleration, MoveStats.GroundDeceleration, InputManager.Movement);
+            if (_isOnIce)
+            {
+                Move(MoveStats.IceAcceleration, MoveStats.IceDeceleration, InputManager.Movement);
+            }
+            else
+            {
+                Move(MoveStats.GroundAcceleration, MoveStats.GroundDeceleration, InputManager.Movement);
+            }
         }
+
         else
         {
             //wall jumping
@@ -148,6 +162,12 @@ public class PlayerMovement : MonoBehaviour
         }
 
         ApplyVelocity();
+
+        // carry the player with the platform, on top of their own movement
+        if (_currentPlatform != null)
+        {
+            _rb.position += _currentPlatform.DeltaMovement;
+        }
     }
 
     private void ApplyVelocity()
@@ -869,8 +889,15 @@ public class PlayerMovement : MonoBehaviour
         if (_groundHit.collider != null)
         {
             _isGrounded = true;
+            _isOnIce = _groundHit.collider.TryGetComponent<IcePlatform>(out _);
+            _groundHit.collider.TryGetComponent(out _currentPlatform); // null if not a moving platform
         }
-        else { _isGrounded = false; }
+        else
+        { 
+            _isGrounded = false; 
+            _isOnIce = false;
+            _currentPlatform = null;
+        }
 
         #region Debug Visualization
         if (MoveStats.DebugShowIsGroundedBox)
@@ -1006,6 +1033,40 @@ public class PlayerMovement : MonoBehaviour
         {
             _dashOnGroundTimer -= Time.deltaTime;
         }
+    }
+
+    #endregion
+
+    #region Other Scripts
+
+    public void ApplyKnockback(Vector2 force)
+    {
+        // cancel dash/jump/wallslide states so knockback isn't fought by other logic
+        _isDashing = false;
+        _isWallSliding = false;
+        ResetJumpValues();
+        ResetWallJumpValues();
+
+        HorizontalVelocity = force.x;
+        VerticalVelocity = force.y;
+    }
+
+    public void ApplyBounce(float bounceForce, bool refundAirJumps = true)
+    {
+        _isDashing = false;
+        StopWallSlide();
+        ResetJumpValues();
+        ResetWallJumpValues();
+
+        _isJumping = true;
+        VerticalVelocity = bounceForce;
+
+        if (refundAirJumps)
+        {
+            _numberOfJumpsUsed = 0;
+        }
+
+        _animator?.OnJumpStarted();
     }
 
     #endregion

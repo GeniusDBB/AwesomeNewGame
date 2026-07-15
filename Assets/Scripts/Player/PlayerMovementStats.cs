@@ -84,6 +84,10 @@ public class PlayerMovementStats : ScriptableObject
     [Range(5, 100)] public int ArcResolution = 20;
     [Range(0, 500)] public int VisualizationSteps = 90;
 
+    [Header("Ice")]
+    public float IceAcceleration = 3f;
+    public float IceDeceleration = 2f;
+
     public readonly Vector2[] DashDirections = new Vector2[]
     {
         new Vector2(0,0), //Nothing
