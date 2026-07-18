@@ -91,8 +91,11 @@ public class PlayerMovement : MonoBehaviour
     //Ice Platform -> u IsGrounded() dodao sranja + fixed update
     private bool _isOnIce;
 
-    //Moving Platform -> IsGrounded() + fixed update
+    //Moving Platform -> IsGrounded() + fixed update + ApplyVelocity()
     private MovingPlatform _currentPlatform;
+
+    //Player effects
+    private PlayerEffects _effects;
 
     private void Awake()
     {
@@ -101,6 +104,7 @@ public class PlayerMovement : MonoBehaviour
         _animator = GetComponent<PlayerAnimator>();
 
         _fallSpeedYDampingChangeThreshold = CameraManager.instance._fallSpeedDampingChangeThreshold;
+        _effects = GetComponent<PlayerEffects>();
     }
     private void Update()
     {
@@ -163,11 +167,6 @@ public class PlayerMovement : MonoBehaviour
 
         ApplyVelocity();
 
-        // carry the player with the platform, on top of their own movement
-        if (_currentPlatform != null)
-        {
-            _rb.position += _currentPlatform.DeltaMovement;
-        }
     }
 
     private void ApplyVelocity()
@@ -177,13 +176,19 @@ public class PlayerMovement : MonoBehaviour
         {
             VerticalVelocity = Mathf.Clamp(VerticalVelocity, -MoveStats.MaxFallSpeed, 50f);
         }
-
         else
         {
             VerticalVelocity = Mathf.Clamp(VerticalVelocity, -50f, 50f);
         }
 
-        _rb.linearVelocity = new Vector2(HorizontalVelocity, VerticalVelocity);
+        //MOVING PLATFORM
+        Vector2 platformVelocity = Vector2.zero;
+        if (_currentPlatform != null)
+        {
+            platformVelocity = _currentPlatform.DeltaMovement / Time.fixedDeltaTime;
+        }
+
+        _rb.linearVelocity = new Vector2(HorizontalVelocity + platformVelocity.x, VerticalVelocity + platformVelocity.y);
     }
 
     #region Movement
@@ -390,6 +395,9 @@ public class PlayerMovement : MonoBehaviour
 
         //ANIMATOR JUMP
         _animator?.OnJumpStarted();
+
+        //Dust particles
+        _effects?.PlayDust();
     }
 
     private void Jump()
@@ -794,6 +802,9 @@ public class PlayerMovement : MonoBehaviour
         // DASH ANIMATION
         _animator?.OnDashStarted();
 
+        //Dust particles
+        _effects?.PlayDust();
+
         _dashTimer = 0f;
         _dashOnGroundTimer = MoveStats.TimeBtwDashesOnGround;
 
@@ -891,6 +902,12 @@ public class PlayerMovement : MonoBehaviour
             _isGrounded = true;
             _isOnIce = _groundHit.collider.TryGetComponent<IcePlatform>(out _);
             _groundHit.collider.TryGetComponent(out _currentPlatform); // null if not a moving platform
+
+            // Breakable platform
+            if (_groundHit.collider.TryGetComponent<BreakablePlatform>(out var breakable))
+            {
+                breakable.NotifyStandingOn();
+            }
         }
         else
         { 
@@ -1075,4 +1092,5 @@ public class PlayerMovement : MonoBehaviour
     public bool IsWallSliding => _isWallSliding;
     public bool IsDashing => _isDashing;
     public bool IsAirDashing => _isAirDashing;
+    public bool IsFacingRight => _isFacingRight;
 }

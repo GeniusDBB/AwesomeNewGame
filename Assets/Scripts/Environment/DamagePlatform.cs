@@ -40,7 +40,6 @@ public class DamagePlatform : MonoBehaviour
         if (_applyKnockback)
         {
             knockDir = (other.transform.position - transform.position).normalized;
-            Debug.Log($"Player: {other.transform.position} Hazard: {transform.position} KnockDir: {knockDir}");
             knockDir.y = Mathf.Max(knockDir.y, _knockbackUpwardBias);
         }
 
