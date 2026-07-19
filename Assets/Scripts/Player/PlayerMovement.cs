@@ -97,6 +97,9 @@ public class PlayerMovement : MonoBehaviour
     //Player effects
     private PlayerEffects _effects;
 
+    //Frozen for dialogue system -> update/fixed update
+    private bool _isFrozen;
+
     private void Awake()
     {
         _isFacingRight = true;
@@ -108,6 +111,8 @@ public class PlayerMovement : MonoBehaviour
     }
     private void Update()
     {
+        if (_isFrozen) return;
+
         CountTimers();
         JumpChecks();
         LandCheck();
@@ -131,6 +136,12 @@ public class PlayerMovement : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        if (_isFrozen)
+        {
+            _rb.linearVelocity = Vector2.zero;
+            return;
+        }
+
         CollisionChecks();
         Jump();
         Fall();
@@ -1084,6 +1095,20 @@ public class PlayerMovement : MonoBehaviour
         }
 
         _animator?.OnJumpStarted();
+    }
+
+    public void SetFrozen(bool frozen)
+    {
+        _isFrozen = frozen;
+
+        if (frozen)
+        {
+            HorizontalVelocity = 0;
+            VerticalVelocity = 0;
+            _rb.linearVelocity = Vector2.zero;
+            _jumpBufferTimer = 0f;
+            _wallJumpPostBufferTimer = 0f;
+        }
     }
 
     #endregion

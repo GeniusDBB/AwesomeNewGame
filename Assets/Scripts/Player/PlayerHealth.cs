@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -10,6 +11,12 @@ public class PlayerHealth : MonoBehaviour
     private PlayerMovement _movement;
     private Rigidbody2D _rb;
 
+    public int CurrentHealth => _currentHealth;
+    public int MaxHealth => _maxHealth;
+
+    public event Action<int, int> OnHealthChanged; // (current, max)
+    public event Action OnPlayerDied;
+
     private void Awake()
     {
         _currentHealth = _maxHealth;
@@ -17,14 +24,20 @@ public class PlayerHealth : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
     }
 
+    private void Start()
+    {
+        // fire once at start so UI can initialize correctly
+        OnHealthChanged?.Invoke(_currentHealth, _maxHealth);
+    }
+
     public void TakeDamage(int amount, Vector2 knockback)
     {
         if (_isInvincible) return;
 
-        _currentHealth -= amount;
+        _currentHealth = Mathf.Max(0, _currentHealth - amount);
         _movement.ApplyKnockback(knockback);
 
-        Debug.Log($"{_currentHealth}/{_maxHealth}");
+        OnHealthChanged?.Invoke(_currentHealth, _maxHealth);
 
         if (_currentHealth <= 0)
         {
@@ -36,17 +49,21 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
+    public void Heal(int amount)
+    {
+        _currentHealth = Mathf.Min(_maxHealth, _currentHealth + amount);
+        OnHealthChanged?.Invoke(_currentHealth, _maxHealth);
+    }
+
     private System.Collections.IEnumerator InvincibilityFrames()
     {
         _isInvincible = true;
-        // flicker sprite, disable hazard collision layer, etc.
         yield return new WaitForSeconds(_invincibilityDuration);
         _isInvincible = false;
     }
 
     private void Die()
     {
-        // trigger death animation, respawn, etc.
-        Debug.Log("Player died");
+        OnPlayerDied?.Invoke();
     }
 }
