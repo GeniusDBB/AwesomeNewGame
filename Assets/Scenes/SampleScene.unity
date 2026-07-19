@@ -1504,7 +1504,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 205.93658, y: -108.722885, z: -10}
+  m_LocalPosition: {x: 197.1365, y: -79.227425, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -48669,11 +48669,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: ff77e71a2186abf4f96fb33101e444ad, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 236.1
+      value: 227.3
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: ff77e71a2186abf4f96fb33101e444ad, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -108.4
+      value: -78.4
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: ff77e71a2186abf4f96fb33101e444ad, type: 3}
       propertyPath: m_LocalPosition.z
@@ -48907,7 +48907,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d351ad4482c3ef4985482960f10bafb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
-  _maxHealth: 5
+  _maxHealth: 3
   _invincibilityDuration: 1
 --- !u!114 &1185661534
 MonoBehaviour:
@@ -49580,6 +49580,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1649917552}
+  - {fileID: 1996451806}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -51746,7 +51747,7 @@ Transform:
   m_GameObject: {fileID: 1930284030}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 205.93655, y: -109.71297, z: -10}
+  m_LocalPosition: {x: 197.13654, y: -79.71297, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -51841,6 +51842,86 @@ CapsuleCollider2D:
   m_Offset: {x: 0.00817737, y: -0.012079179}
   m_Size: {x: 0.7933472, y: 1.41566}
   m_Direction: 0
+--- !u!1 &1996451805
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1996451806}
+  - component: {fileID: 1996451808}
+  - component: {fileID: 1996451807}
+  m_Layer: 5
+  m_Name: HeartsContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1996451806
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1996451805}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1262072713}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0, y: 1}
+--- !u!114 &1996451807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1996451805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26f562ac14080c34da5e92b99ef9d870, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HeartsUI
+  _playerHealth: {fileID: 1185661533}
+  _heartPrefab: {fileID: 6074958308348399754, guid: 829d8f7067d85d04393bdbb7ad806332, type: 3}
+  _heartsContainer: {fileID: 1996451806}
+  _fullHeart: {fileID: 4759958785438735162, guid: c8abf451e7ce001449e06a26d1e09d23, type: 3}
+  _emptyHeart: {fileID: 6228035034694424555, guid: c8abf451e7ce001449e06a26d1e09d23, type: 3}
+--- !u!114 &1996451808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1996451805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30649d3a9faa99c48a7b1166b86bf2a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.HorizontalLayoutGroup
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 0
+  m_Spacing: 0
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 1
+  m_ChildControlWidth: 0
+  m_ChildControlHeight: 0
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
 --- !u!1 &2012692708
 GameObject:
   m_ObjectHideFlags: 0
