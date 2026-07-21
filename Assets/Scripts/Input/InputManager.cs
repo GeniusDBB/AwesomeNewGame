@@ -14,6 +14,14 @@ public class InputManager : MonoBehaviour
     public static bool RunIsHeld;
     public static bool DashWasPressed;
 
+    //Interact
+    public static bool InteractWasPressed;
+    private InputAction _interactAction;
+
+    //Pause Menu
+    public static bool PauseWasPressed;
+    private InputAction _pauseAction;
+
     private InputAction _moveAction;
     private InputAction _jumpAction;
     private InputAction _runAction;
@@ -28,6 +36,10 @@ public class InputManager : MonoBehaviour
         _runAction = PlayerInput.actions["Run"];
 
         _dashAction = PlayerInput.actions["Dash"];
+
+        _interactAction = PlayerInput.actions["Interact"];
+
+        _pauseAction = PlayerInput.actions["Pause"];
     }
     private void Update()
     {
@@ -40,5 +52,9 @@ public class InputManager : MonoBehaviour
         RunIsHeld = _runAction.IsPressed();
 
         DashWasPressed = _dashAction.WasPressedThisFrame();
+
+        InteractWasPressed = _interactAction.WasPressedThisFrame();
+
+        PauseWasPressed = _pauseAction.WasPressedThisFrame();
     }
 }

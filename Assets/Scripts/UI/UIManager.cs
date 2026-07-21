@@ -1,13 +1,16 @@
 using UnityEngine;
 using TMPro;
+using Unity.VisualScripting;
 
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance { get; private set; }
 
     [Header("Interact Prompt")]
-    [SerializeField] private GameObject _interactPromptObject;
-    [SerializeField] private TMP_Text _interactPromptText;
+    [SerializeField] private RectTransform _interactIcon;
+
+    [Header("Quest Display")]
+    [SerializeField] private TMP_Text _questText;
 
     private void Awake()
     {
@@ -22,15 +25,31 @@ public class UIManager : MonoBehaviour
         HideInteractPrompt();
     }
 
-    public void ShowInteractPrompt(string text = "Press E")
+    private void Start()
     {
-        _interactPromptObject.SetActive(true);
-        _interactPromptText.text = text;
+        KeyManager.Instance.OnKeyCountChanged += UpdateKeyQuestText;
+    }
+
+    public void ShowInteractPrompt(Vector3 worldPosition)
+    {
+        _interactIcon.gameObject.SetActive(true);
+        UpdateInteractIconPosition(worldPosition);
     }
 
     public void HideInteractPrompt()
     {
-        _interactPromptObject.SetActive(false);
+        _interactIcon.gameObject.SetActive(false);
+    }
+
+    public void UpdateInteractIconPosition(Vector3 worldPosition)
+    {
+        Vector3 screenPos = Camera.main.WorldToScreenPoint(worldPosition);
+        _interactIcon.position = screenPos;
+    }
+
+    public void UpdateKeyQuestText(int current, int required)
+    {
+        _questText.text = $"Collect all keys: {current}/{required}";
     }
 
     // Later: ShowPauseMenu(), HidePauseMenu(), UpdateQuestLog(...), etc.
