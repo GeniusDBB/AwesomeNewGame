@@ -1508,7 +1508,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneTransitionManager
   _fadeCanvasGroup: {fileID: 7272778578994622069}
-  _fadeDuration: 0.5
+  _fadeDuration: 2
 --- !u!1 &7127710894495972315
 GameObject:
   m_ObjectHideFlags: 0

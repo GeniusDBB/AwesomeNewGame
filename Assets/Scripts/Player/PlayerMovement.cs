@@ -943,6 +943,15 @@ public class PlayerMovement : MonoBehaviour
             {
                 breakable.NotifyStandingOn();
             }
+
+            //OneWay Platform
+            if (_groundHit.collider.TryGetComponent<OneWayPlatform>(out var oneWay))
+            {
+                if (InputManager.Movement.y < -0.5f && InputManager.JumpWasPressed)
+                {
+                    oneWay.DropThrough(_collider);
+                }
+            }
         }
         else
         { 
