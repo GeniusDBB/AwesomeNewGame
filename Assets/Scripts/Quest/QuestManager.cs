@@ -18,7 +18,6 @@ public class QuestManager : MonoBehaviour
             return;
         }
         Instance = this;
-        DontDestroyOnLoad(gameObject);
     }
 
 

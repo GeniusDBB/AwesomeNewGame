@@ -23,7 +23,8 @@ public class CameraManager : MonoBehaviour
 
     private float _normYPanAmount;
 
-    private void Awake()
+    //Stari awake prije neg kaj sam dodo player persistent
+    /*private void Awake()
     {
         if (instance == null)
         {
@@ -46,6 +47,34 @@ public class CameraManager : MonoBehaviour
         }
 
         _normYPanAmount = _positionComposer.Damping.y;
+    }*/
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+
+        for (int i = 0; i < _allVirtualCameras.Length; i++)
+        {
+            if (_allVirtualCameras[i].enabled)
+            {
+                _currentCamera = _allVirtualCameras[i];
+                _positionComposer = _currentCamera.GetComponent<CinemachinePositionComposer>();
+                break;
+            }
+        }
+
+        _normYPanAmount = _positionComposer.Damping.y;
+    }
+
+    public void SetFollowTarget(Transform target)
+    {
+        for (int i = 0; i < _allVirtualCameras.Length; i++)
+        {
+            _allVirtualCameras[i].Follow = target;
+            // _allVirtualCameras[i].LookAt = target; // if you use LookAt too
+        }
     }
 
     #region Lerp the Y Damping

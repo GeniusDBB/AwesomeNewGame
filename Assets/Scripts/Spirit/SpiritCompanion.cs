@@ -25,12 +25,26 @@ public class SpiritCompanion : MonoBehaviour
         {
             _player = GameObject.FindGameObjectWithTag("Player")?.transform;
         }
-
-        _playerMovement = _player.GetComponent<PlayerMovement>();
     }
 
     private void Update()
     {
+        if (_playerMovement == null)
+        {
+            GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+            if (playerObj == null) return;
+
+            if (playerObj.TryGetComponent<PlayerMovement>(out var pm))
+            {
+                _player = playerObj.transform;
+                _playerMovement = pm;
+            }
+            else
+            {
+                return; // found a "Player"-tagged object, but wrong one — try again next frame
+            }
+        }
+
         RecordPlayerPosition();
         FollowPlayer();
         ApplyIdleBob();

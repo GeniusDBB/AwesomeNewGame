@@ -13,8 +13,8 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private TMP_Text _bodyText;
     [SerializeField] private GameObject _continueIndicator;
 
-    [Header("Player Reference")]
-    [SerializeField] private PlayerMovement _playerMovement;
+    //PlayerMovement reference
+    private PlayerMovement _playerMovement;
 
     [Header("Typing Settings")]
     [SerializeField] private float _charactersPerSecond = 40f;
@@ -37,7 +37,8 @@ public class DialogueManager : MonoBehaviour
         _dialoguePanel.SetActive(false);
     }
 
-    private void Update()
+    //LateUpdate zato jer sam stavio dialogue continue na jump i onda kad zavrsi razgovor skoci player
+    private void LateUpdate()
     {
         if (!_dialogueActive) return;
 
@@ -57,6 +58,11 @@ public class DialogueManager : MonoBehaviour
     public void StartDialogue(List<DialogueLine> lines)
     {
         if (_dialogueActive) return;
+
+        if (_playerMovement == null)
+        {
+            _playerMovement = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
+        }
 
         _lineQueue.Clear();
         foreach (var line in lines)

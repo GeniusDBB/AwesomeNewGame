@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.Rendering.UI;
 using System.Runtime.CompilerServices;
 using UnityEngine.XR;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -106,7 +107,7 @@ public class PlayerMovement : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
         _animator = GetComponent<PlayerAnimator>();
 
-        _fallSpeedYDampingChangeThreshold = CameraManager.instance._fallSpeedDampingChangeThreshold;
+        //_fallSpeedYDampingChangeThreshold = CameraManager.instance._fallSpeedDampingChangeThreshold;
         _effects = GetComponent<PlayerEffects>();
     }
     private void Update()
@@ -201,6 +202,29 @@ public class PlayerMovement : MonoBehaviour
 
         _rb.linearVelocity = new Vector2(HorizontalVelocity + platformVelocity.x, VerticalVelocity + platformVelocity.y);
     }
+    //================================
+    //Cinemachine call on sceneload 
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+
+        if (CameraManager.instance != null)
+        {
+            CameraManager.instance.SetFollowTarget(transform);
+        }
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        CameraManager.instance.SetFollowTarget(transform);
+        _fallSpeedYDampingChangeThreshold = CameraManager.instance._fallSpeedDampingChangeThreshold;
+    }
+    //=================================
 
     #region Movement
 
