@@ -101,6 +101,10 @@ public class PlayerMovement : MonoBehaviour
     //Frozen for dialogue system -> update/fixed update
     private bool _isFrozen;
 
+    //OneWay Platform
+    private Collider2D _ignoredPlatformCollider;
+    private OneWayPlatform _currentOneWayPlatform;
+
     private void Awake()
     {
         _isFacingRight = true;
@@ -342,6 +346,15 @@ public class PlayerMovement : MonoBehaviour
 
     private void JumpChecks()
     {
+        //DROP THROUGH ONE-WAY PLATFORM
+        if (InputManager.JumpWasPressed && _isGrounded && _currentOneWayPlatform != null && InputManager.Movement.y < -0.5f)
+        {
+            _currentOneWayPlatform.DropThrough(_collider);
+            _ignoredPlatformCollider = _groundHit.collider;
+            Invoke(nameof(ClearIgnoredPlatform), _currentOneWayPlatform.DropThroughDuration);
+            return; // skip the rest of JumpChecks entirely so no normal jump fires this press
+        }
+
         //WHEN WE PRESS THE JUMP BUTTON
         if (InputManager.JumpWasPressed)
         {
@@ -931,8 +944,8 @@ public class PlayerMovement : MonoBehaviour
         Vector2 boxCastOrigin = new Vector2(bounds.center.x, bounds.min.y);
         Vector2 boxCastSize = new Vector2(bounds.size.x * 0.8f, MoveStats.GroundDetectionRayLength);
 
-        _groundHit = Physics2D.BoxCast(boxCastOrigin, boxCastSize, 0f, Vector2.down, MoveStats.GroundDetectionRayLength, MoveStats.GroundLayer);
-        if (_groundHit.collider != null)
+        _groundHit = Physics2D.BoxCast(boxCastOrigin, boxCastSize, 0f, Vector2.down, MoveStats.GroundDetectionRayLength, MoveStats.GroundLayer | MoveStats.OneWayPlatformLayer);
+        if (_groundHit.collider != null && _groundHit.collider != _ignoredPlatformCollider)
         {
             _isGrounded = true;
             _isOnIce = _groundHit.collider.TryGetComponent<IcePlatform>(out _);
@@ -945,13 +958,7 @@ public class PlayerMovement : MonoBehaviour
             }
 
             //OneWay Platform
-            if (_groundHit.collider.TryGetComponent<OneWayPlatform>(out var oneWay))
-            {
-                if (InputManager.Movement.y < -0.5f && InputManager.JumpWasPressed)
-                {
-                    oneWay.DropThrough(_collider);
-                }
-            }
+            _groundHit.collider.TryGetComponent(out _currentOneWayPlatform);
         }
         else
         { 
@@ -1142,6 +1149,12 @@ public class PlayerMovement : MonoBehaviour
             _jumpBufferTimer = 0f;
             _wallJumpPostBufferTimer = 0f;
         }
+    }
+
+    //OneWay Platform helper
+    private void ClearIgnoredPlatform()
+    {
+        _ignoredPlatformCollider = null;
     }
 
     #endregion

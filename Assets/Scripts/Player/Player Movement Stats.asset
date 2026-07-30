@@ -64,3 +64,6 @@ MonoBehaviour:
   VisualizationSteps: 90
   IceAcceleration: 2.5
   IceDeceleration: 0.5
+  OneWayPlatformLayer:
+    serializedVersion: 2
+    m_Bits: 256

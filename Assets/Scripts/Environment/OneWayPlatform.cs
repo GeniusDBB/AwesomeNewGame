@@ -21,4 +21,6 @@ public class OneWayPlatform : MonoBehaviour
         yield return new WaitForSeconds(_dropThroughDuration);
         Physics2D.IgnoreCollision(playerCollider, _platformCollider, false);
     }
+
+    public float DropThroughDuration => _dropThroughDuration;
 }

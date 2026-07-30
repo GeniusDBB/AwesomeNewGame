@@ -9,6 +9,8 @@ public class SceneTransitionManager : MonoBehaviour
     [SerializeField] private CanvasGroup _fadeCanvasGroup;
     [SerializeField] private float _fadeDuration = 0.5f;
 
+    private bool _isTransitioning;
+
     private void Awake()
     {
         Instance = this;
@@ -16,12 +18,14 @@ public class SceneTransitionManager : MonoBehaviour
 
     public void LoadScene(string sceneName, string targetSpawnPointId = "")
     {
+        if (_isTransitioning) return;
+        _isTransitioning = true;
         StartCoroutine(TransitionRoutine(sceneName, targetSpawnPointId));
     }
 
     private IEnumerator TransitionRoutine(string sceneName, string spawnId)
     {
-        yield return StartCoroutine(Fade(1f)); // fade to black
+        yield return StartCoroutine(Fade(1f));
 
         AsyncOperation load = SceneManager.LoadSceneAsync(sceneName);
         while (!load.isDone)
@@ -34,7 +38,11 @@ public class SceneTransitionManager : MonoBehaviour
             PlacePlayerAtSpawn(spawnId);
         }
 
-        yield return StartCoroutine(Fade(0f)); // fade back in
+        yield return new WaitForSecondsRealtime(1f); // hold at full black so camera/scene fully settles
+
+        yield return StartCoroutine(Fade(0f));
+
+        _isTransitioning = false;
     }
 
     private void PlacePlayerAtSpawn(string spawnId)
@@ -68,7 +76,8 @@ public class SceneTransitionManager : MonoBehaviour
 
         while (t < _fadeDuration)
         {
-            t += Time.unscaledDeltaTime; // unscaled in case paused/timeScale weirdness
+            float delta = Mathf.Min(Time.unscaledDeltaTime, 1f / 30f);
+            t += delta;
             _fadeCanvasGroup.alpha = Mathf.Lerp(startAlpha, targetAlpha, t / _fadeDuration);
             yield return null;
         }

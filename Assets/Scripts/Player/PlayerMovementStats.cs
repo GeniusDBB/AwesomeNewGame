@@ -88,6 +88,9 @@ public class PlayerMovementStats : ScriptableObject
     public float IceAcceleration = 3f;
     public float IceDeceleration = 2f;
 
+    //OneWayPlatform
+    public LayerMask OneWayPlatformLayer;
+
     public readonly Vector2[] DashDirections = new Vector2[]
     {
         new Vector2(0,0), //Nothing

@@ -73,6 +73,7 @@ public class CameraManager : MonoBehaviour
         for (int i = 0; i < _allVirtualCameras.Length; i++)
         {
             _allVirtualCameras[i].Follow = target;
+            _allVirtualCameras[i].PreviousStateIsValid = false;
             // _allVirtualCameras[i].LookAt = target; // if you use LookAt too
         }
     }
