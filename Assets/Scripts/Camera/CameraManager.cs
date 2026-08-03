@@ -130,4 +130,28 @@ public class CameraManager : MonoBehaviour
     }
 
     #endregion
+
+    #region LeverCinematic
+
+    public IEnumerator PlayLeverCinematic(CinemachineCamera cutsceneCam, FakeWall wall, CinemachineImpulseSource impulseSource, PlayerMovement player)
+    {
+        player.SetFrozen(true);
+
+        int originalPriority = cutsceneCam.Priority;
+        cutsceneCam.Priority = 999; // higher than any gameplay camera, forces the blend
+
+        yield return new WaitForSeconds(2f); // let the blend-to-wall finish and hold a beat
+
+        yield return StartCoroutine(wall.Open());
+
+        yield return new WaitForSeconds(1f); // hold on the open wall briefly
+
+        cutsceneCam.Priority = originalPriority; // blend back to whichever gameplay cam has highest priority
+
+        yield return new WaitForSeconds(2f); // let blend-back finish before returning control
+
+        player.SetFrozen(false);
+    }
+
+    #endregion
 }

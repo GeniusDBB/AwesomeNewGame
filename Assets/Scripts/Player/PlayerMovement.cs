@@ -105,6 +105,15 @@ public class PlayerMovement : MonoBehaviour
     private Collider2D _ignoredPlatformCollider;
     private OneWayPlatform _currentOneWayPlatform;
 
+    //Minimal Jump -> dodao u InitiateJump() i u JumpChecks()
+    private float _jumpStartTime;
+    private bool _wantsToCancelJump;
+
+    // Slopes
+    private Vector2 _slopeNormal = Vector2.up;
+    private float _slopeAngle;
+    private bool _isOnSlope;
+
     private void Awake()
     {
         _isFacingRight = true;
@@ -116,7 +125,11 @@ public class PlayerMovement : MonoBehaviour
     }
     private void Update()
     {
-        if (_isFrozen) return;
+        if (_isFrozen)
+        {
+            LandCheck();
+            return;
+        }
 
         CountTimers();
         JumpChecks();
@@ -143,7 +156,9 @@ public class PlayerMovement : MonoBehaviour
     {
         if (_isFrozen)
         {
-            _rb.linearVelocity = Vector2.zero;
+            CollisionChecks();
+            Fall();
+            ApplyVelocity();
             return;
         }
 
@@ -180,6 +195,9 @@ public class PlayerMovement : MonoBehaviour
                 Move(MoveStats.AirAcceleration, MoveStats.AirDeceleration, InputManager.Movement);
             }
         }
+
+        //Slopes
+        HandleSlopeMovement();
 
         ApplyVelocity();
 
@@ -342,6 +360,9 @@ public class PlayerMovement : MonoBehaviour
         _isFastFalling = false;
         _fastFallTime = 0f;
         _isPastApexThreshold = false;
+
+        //MinimalJump
+        _wantsToCancelJump = false;
     }
 
     private void JumpChecks()
@@ -382,18 +403,27 @@ public class PlayerMovement : MonoBehaviour
 
             if (_isJumping && VerticalVelocity > 0f)
             {
-                if (_isPastApexThreshold)
-                {
-                    _isPastApexThreshold = false;
-                    _isFastFalling = true;
-                    _fastFallTime = MoveStats.TimeForUpwardsCancel;
-                    VerticalVelocity = 0f;
-                }
-                else
-                {
-                    _isFastFalling = true;
-                    _fastFallReleaseSpeed = VerticalVelocity;
-                }
+                _wantsToCancelJump = true;
+            }
+        }
+
+        //Minimal jump
+        //APPLY THE CANCEL ONLY ONCE THE MINIMUM JUMP WINDOW HAS PASSED
+        if (_wantsToCancelJump && _isJumping && Time.time - _jumpStartTime >= MoveStats.MinJumpTime)
+        {
+            _wantsToCancelJump = false;
+
+            if (_isPastApexThreshold)
+            {
+                _isPastApexThreshold = false;
+                _isFastFalling = true;
+                _fastFallTime = MoveStats.TimeForUpwardsCancel;
+                VerticalVelocity = 0f;
+            }
+            else
+            {
+                _isFastFalling = true;
+                _fastFallReleaseSpeed = VerticalVelocity;
             }
         }
 
@@ -433,6 +463,10 @@ public class PlayerMovement : MonoBehaviour
         if (!_isJumping)
         {
             _isJumping = true;
+
+            //Minimal Jump
+            _jumpStartTime = Time.time;
+            _wantsToCancelJump = false;
         }
 
         ResetWallJumpValues();
@@ -959,12 +993,21 @@ public class PlayerMovement : MonoBehaviour
 
             //OneWay Platform
             _groundHit.collider.TryGetComponent(out _currentOneWayPlatform);
+
+            // Slopes
+            _slopeNormal = _groundHit.normal;
+            _slopeAngle = Vector2.Angle(_slopeNormal, Vector2.up);
+            _isOnSlope = _slopeAngle > 0.5f && _slopeAngle <= MoveStats.MaxSlopeAngle;
         }
         else
         { 
             _isGrounded = false; 
             _isOnIce = false;
             _currentPlatform = null;
+
+            //Slopes
+            _isOnSlope =false;
+            _slopeNormal = Vector2.up;
         }
 
         #region Debug Visualization
@@ -1143,11 +1186,14 @@ public class PlayerMovement : MonoBehaviour
 
         if (frozen)
         {
-            HorizontalVelocity = 0;
-            VerticalVelocity = 0;
-            _rb.linearVelocity = Vector2.zero;
+            HorizontalVelocity = 0f;
             _jumpBufferTimer = 0f;
             _wallJumpPostBufferTimer = 0f;
+
+            _isDashing = false;
+            _isWallSliding = false;
+            ResetJumpValues();   // clears _isJumping so Fall() can take over if airborne
+            ResetWallJumpValues();
         }
     }
 
@@ -1155,6 +1201,25 @@ public class PlayerMovement : MonoBehaviour
     private void ClearIgnoredPlatform()
     {
         _ignoredPlatformCollider = null;
+    }
+
+    //Slopes
+    private void HandleSlopeMovement()
+    {
+        if (_isGrounded && _isOnSlope && !_isJumping && !_isWallJumping && !_isDashing)
+        {
+            Vector2 slopeTangent = new Vector2(_slopeNormal.y, -_slopeNormal.x).normalized;
+
+            // force tangent to always point in the +x (rightward) world direction along the slope
+            if (slopeTangent.x < 0f)
+            {
+                slopeTangent = -slopeTangent;
+            }
+
+            Vector2 slopeVelocity = slopeTangent * HorizontalVelocity;
+            HorizontalVelocity = slopeVelocity.x;
+            VerticalVelocity = slopeVelocity.y;
+        }
     }
 
     #endregion

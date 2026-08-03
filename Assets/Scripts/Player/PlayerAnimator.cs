@@ -18,7 +18,7 @@ public class PlayerAnimator : MonoBehaviour
     private static readonly int Hash_Jump = Animator.StringToHash("Jump");
     private static readonly int Hash_Dash = Animator.StringToHash("Dash");
 
-    //private static readonly int Hash_Land = Animator.StringToHash("Land");
+    private static readonly int Hash_Land = Animator.StringToHash("Land");
 
     private static readonly int Hash_Hurt = Animator.StringToHash("Hurt");
     private static readonly int Hash_Death = Animator.StringToHash("Death");
@@ -44,38 +44,28 @@ public class PlayerAnimator : MonoBehaviour
             return;
 
         UpdateParameters();
-     //   DetectLanding();
+        DetectLanding();
     }
 
     private void UpdateParameters()
     {
         _animator.SetBool(Hash_IsMoving, Mathf.Abs(_movement.HorizontalVelocity) > 0.1f);
-
         _animator.SetBool(Hash_IsGround, _movement.IsGround);
-
         _animator.SetBool(Hash_IsWallSliding, _movement.IsWallSliding);
-
         _animator.SetBool(Hash_IsDashing, _movement.IsDashing);
-
         _animator.SetBool(Hash_IsAirDashing, _movement.IsAirDashing);
-
         _animator.SetFloat(Hash_VerticalVelocity, _movement.VerticalVelocity);
-
     }
 
-    /*
     private void DetectLanding()
     {
         bool grounded = _movement.IsGround;
-
         if (!_wasGrounded && grounded)
         {
             _animator.SetTrigger(Hash_Land);
         }
-
         _wasGrounded = grounded;
     }
-    */
 
     // ===== PUBLIC ANIMATION EVENTS =====
 

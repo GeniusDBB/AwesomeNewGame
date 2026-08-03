@@ -27,10 +27,10 @@ MonoBehaviour:
   HeadDetectionRayLength: 0.02
   HeadWidth: 0.75
   WallDetectionRayLength: 0.125
-  WallDetectionRayHeightMultiplier: 0.9
-  JumpHeight: 4.8
+  WallDetectionRayHeightMultiplier: 0.8
+  JumpHeight: 4.6
   JumpHeightCompensationFactor: 1.054
-  TimeTillJumpApex: 0.35
+  TimeTillJumpApex: 0.4
   GravityOnReleaseMultiplier: 2.03
   MaxFallSpeed: 22
   NumberOfJumpsAllowed: 2
@@ -67,3 +67,5 @@ MonoBehaviour:
   OneWayPlatformLayer:
     serializedVersion: 2
     m_Bits: 256
+  MinJumpTime: 0.1
+  MaxSlopeAngle: 45

@@ -325,7 +325,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1888840294563920641
 RectTransform:
   m_ObjectHideFlags: 0
@@ -383,7 +383,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26f562ac14080c34da5e92b99ef9d870, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HeartsUI
-  _playerHealth: {fileID: 0}
   _heartPrefab: {fileID: 6074958308348399754, guid: 829d8f7067d85d04393bdbb7ad806332, type: 3}
   _heartsContainer: {fileID: 1888840294563920641}
   _fullHeart: {fileID: 4759958785438735162, guid: c8abf451e7ce001449e06a26d1e09d23, type: 3}

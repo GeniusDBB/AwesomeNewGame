@@ -91,6 +91,14 @@ public class PlayerMovementStats : ScriptableObject
     //OneWayPlatform
     public LayerMask OneWayPlatformLayer;
 
+    //Minimal Jump
+    public float MinJumpTime = 0.1f;
+
+    // Slopes
+    [Header("Slopes")]
+    [Range(0f, 89f)] public float MaxSlopeAngle = 45f;
+
+
     public readonly Vector2[] DashDirections = new Vector2[]
     {
         new Vector2(0,0), //Nothing

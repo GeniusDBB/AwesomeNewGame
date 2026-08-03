@@ -11,6 +11,8 @@ public class SceneTransitionManager : MonoBehaviour
 
     private bool _isTransitioning;
 
+    private PlayerMovement _playerMovement;
+
     private void Awake()
     {
         Instance = this;
@@ -25,6 +27,9 @@ public class SceneTransitionManager : MonoBehaviour
 
     private IEnumerator TransitionRoutine(string sceneName, string spawnId)
     {
+        EnsurePlayerReference();
+        _playerMovement?.SetFrozen(true);
+
         yield return StartCoroutine(Fade(1f));
 
         AsyncOperation load = SceneManager.LoadSceneAsync(sceneName);
@@ -38,10 +43,11 @@ public class SceneTransitionManager : MonoBehaviour
             PlacePlayerAtSpawn(spawnId);
         }
 
-        yield return new WaitForSecondsRealtime(1f); // hold at full black so camera/scene fully settles
+        yield return new WaitForSecondsRealtime(1f);
 
         yield return StartCoroutine(Fade(0f));
 
+        _playerMovement?.SetFrozen(false);
         _isTransitioning = false;
     }
 
@@ -84,5 +90,15 @@ public class SceneTransitionManager : MonoBehaviour
 
         _fadeCanvasGroup.alpha = targetAlpha;
         _fadeCanvasGroup.blocksRaycasts = targetAlpha > 0.5f;
+    }
+
+    private void EnsurePlayerReference()
+    {
+        if (_playerMovement != null) return;
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        if (playerObj != null)
+        {
+            _playerMovement = playerObj.GetComponent<PlayerMovement>();
+        }
     }
 }

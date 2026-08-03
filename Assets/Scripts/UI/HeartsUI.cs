@@ -3,27 +3,40 @@ using System.Collections.Generic;
 
 public class HeartsUI : MonoBehaviour
 {
-    [SerializeField] private PlayerHealth _playerHealth;
-    [SerializeField] private GameObject _heartPrefab; // a UI Image prefab
-    [SerializeField] private Transform _heartsContainer; // horizontal layout group parent
+    [SerializeField] private GameObject _heartPrefab;
+    [SerializeField] private Transform _heartsContainer;
     [SerializeField] private Sprite _fullHeart;
     [SerializeField] private Sprite _emptyHeart;
 
+    private PlayerHealth _playerHealth;
     private readonly List<UnityEngine.UI.Image> _heartImages = new();
 
-    private void OnEnable()
+    private void Update()
     {
-        _playerHealth.OnHealthChanged += UpdateHearts;
+        if (_playerHealth == null)
+        {
+            GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+            if (playerObj == null) return;
+
+            if (playerObj.TryGetComponent<PlayerHealth>(out var health))
+            {
+                _playerHealth = health;
+                _playerHealth.OnHealthChanged += UpdateHearts;
+                UpdateHearts(_playerHealth.CurrentHealth, _playerHealth.MaxHealth);
+            }
+        }
     }
 
     private void OnDisable()
     {
-        _playerHealth.OnHealthChanged -= UpdateHearts;
+        if (_playerHealth != null)
+        {
+            _playerHealth.OnHealthChanged -= UpdateHearts;
+        }
     }
 
     private void UpdateHearts(int current, int max)
     {
-        // build hearts if count changed (first time, or max health changed)
         if (_heartImages.Count != max)
         {
             foreach (var heart in _heartImages) Destroy(heart.gameObject);
