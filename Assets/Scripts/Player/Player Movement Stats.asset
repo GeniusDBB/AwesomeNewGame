@@ -41,7 +41,7 @@ MonoBehaviour:
   JumpBufferTime: 0.125
   JumpCoyoteTime: 0.1
   WallSlideSpeed: 5
-  WallSlideDecelerationSpeed: 50
+  WallSlideDecelerationSpeed: 27.8
   WallJumpDirection: {x: -12, y: 3.5}
   WallJumpPostBufferTime: 0.125
   WallJumpGravityOnReleaseMultiplier: 1
@@ -69,3 +69,5 @@ MonoBehaviour:
     m_Bits: 256
   MinJumpTime: 0.1
   MaxSlopeAngle: 45
+  LadderClimbSpeedVertical: 4
+  LadderClimbSpeedHorizontal: 3

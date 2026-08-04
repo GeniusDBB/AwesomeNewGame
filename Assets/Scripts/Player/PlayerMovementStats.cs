@@ -98,6 +98,11 @@ public class PlayerMovementStats : ScriptableObject
     [Header("Slopes")]
     [Range(0f, 89f)] public float MaxSlopeAngle = 45f;
 
+    // Lader
+    [Header("Ladder")]
+    public float LadderClimbSpeedVertical = 4f;
+    public float LadderClimbSpeedHorizontal = 3f;
+
 
     public readonly Vector2[] DashDirections = new Vector2[]
     {

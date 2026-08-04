@@ -114,6 +114,10 @@ public class PlayerMovement : MonoBehaviour
     private float _slopeAngle;
     private bool _isOnSlope;
 
+    //Ladder
+    private Ladder _nearbyLadder;
+    private bool _isOnLadder;
+
     private void Awake()
     {
         _isFacingRight = true;
@@ -132,11 +136,16 @@ public class PlayerMovement : MonoBehaviour
         }
 
         CountTimers();
-        JumpChecks();
-        LandCheck();
-        WallJumpCheck();
+        LadderCheck();
 
-        WallSlideCheck();
+        if (!_isOnLadder)
+        {
+            JumpChecks();
+            WallJumpCheck();
+            WallSlideCheck();
+        }
+
+        LandCheck();
         DashCheck();
 
         //--------CINEMACHINE----------
@@ -163,6 +172,14 @@ public class PlayerMovement : MonoBehaviour
         }
 
         CollisionChecks();
+
+        if (_isOnLadder)
+        {
+            ClimbLadder();
+            ApplyVelocity();
+            return;
+        }
+
         Jump();
         Fall();
         WallSlide();
@@ -1119,6 +1136,51 @@ public class PlayerMovement : MonoBehaviour
 
     #endregion
 
+    #region Ladder
+
+    private void LadderCheck()
+    {
+        if (!_isOnLadder && _nearbyLadder != null && Mathf.Abs(InputManager.Movement.y) > 0.5f)
+        {
+            EnterLadder();
+            return;
+        }
+
+        if (_isOnLadder && _nearbyLadder == null)
+        {
+            ExitLadder();
+        }
+    }
+
+    private void EnterLadder()
+    {
+        _isOnLadder = true;
+        _isDashing = false;
+        ResetJumpValues();
+        ResetWallJumpValues();
+        StopWallSlide();
+        VerticalVelocity = 0f;
+        HorizontalVelocity = 0f;
+    }
+
+    private void ExitLadder()
+    {
+        _isOnLadder = false;
+    }
+
+    private void ClimbLadder()
+    {
+        if (Mathf.Abs(InputManager.Movement.x) >= MoveStats.MoveThreshold)
+        {
+            TurnCheck(InputManager.Movement);
+        }
+
+        HorizontalVelocity = InputManager.Movement.x * MoveStats.LadderClimbSpeedHorizontal;
+        VerticalVelocity = InputManager.Movement.y * MoveStats.LadderClimbSpeedVertical;
+    }
+
+    #endregion
+
     #region Timers
 
     private void CountTimers()
@@ -1229,4 +1291,12 @@ public class PlayerMovement : MonoBehaviour
     public bool IsDashing => _isDashing;
     public bool IsAirDashing => _isAirDashing;
     public bool IsFacingRight => _isFacingRight;
+
+    //ladder
+    public void SetNearbyLadder(Ladder ladder) => _nearbyLadder = ladder;
+    public void ClearNearbyLadder(Ladder ladder)
+    {
+        if (_nearbyLadder == ladder) _nearbyLadder = null;
+    }
+    public bool IsOnLadder => _isOnLadder;
 }

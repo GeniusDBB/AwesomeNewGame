@@ -23,6 +23,8 @@ public class PlayerAnimator : MonoBehaviour
     private static readonly int Hash_Hurt = Animator.StringToHash("Hurt");
     private static readonly int Hash_Death = Animator.StringToHash("Death");
 
+    private static readonly int Hash_IsOnLadder = Animator.StringToHash("IsOnLadder");
+
     private bool _wasGrounded;
 
     private void Awake()
@@ -49,11 +51,13 @@ public class PlayerAnimator : MonoBehaviour
 
     private void UpdateParameters()
     {
-        _animator.SetBool(Hash_IsMoving, Mathf.Abs(_movement.HorizontalVelocity) > 0.1f);
+        bool moving = _movement.IsOnLadder ? (Mathf.Abs(_movement.VerticalVelocity) > 0.05f || Mathf.Abs(_movement.HorizontalVelocity) > 0.1f) : Mathf.Abs(_movement.HorizontalVelocity) > 0.1f;
+        _animator.SetBool(Hash_IsMoving, moving);
         _animator.SetBool(Hash_IsGround, _movement.IsGround);
         _animator.SetBool(Hash_IsWallSliding, _movement.IsWallSliding);
         _animator.SetBool(Hash_IsDashing, _movement.IsDashing);
         _animator.SetBool(Hash_IsAirDashing, _movement.IsAirDashing);
+        _animator.SetBool(Hash_IsOnLadder, _movement.IsOnLadder);
         _animator.SetFloat(Hash_VerticalVelocity, _movement.VerticalVelocity);
     }
 
