@@ -28,7 +28,7 @@ MonoBehaviour:
   HeadWidth: 0.75
   WallDetectionRayLength: 0.125
   WallDetectionRayHeightMultiplier: 0.8
-  JumpHeight: 4.6
+  JumpHeight: 4.4
   JumpHeightCompensationFactor: 1.054
   TimeTillJumpApex: 0.4
   GravityOnReleaseMultiplier: 2.03

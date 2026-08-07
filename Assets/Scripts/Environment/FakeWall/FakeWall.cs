@@ -4,27 +4,56 @@ using UnityEngine;
 
 public class FakeWall : MonoBehaviour
 {
+    public enum SlideDirection
+    {
+        Up,
+        Down,
+        Left,
+        Right
+    }
+
     [SerializeField] private float _openDistance = 3f;
     [SerializeField] private float _openDuration = 1f;
+    [SerializeField] private SlideDirection _slideDirection = SlideDirection.Up;
 
-    [SerializeField] private CinemachineImpulseSource impulseSource;
+    [SerializeField] private CinemachineImpulseSource _impulseSource;
 
     public IEnumerator Open()
     {
-        //Collider2D col = GetComponent<Collider2D>();
-        //if (col != null) col.enabled = false;
-
         Vector3 start = transform.position;
-        Vector3 end = start + Vector3.up * _openDistance; // slides up
 
-        impulseSource.GenerateImpulse(); //generates shake
+        Vector3 direction = GetDirection();
+        Vector3 end = start + direction * _openDistance;
+
+        _impulseSource.GenerateImpulse();
 
         float t = 0f;
+
         while (t < _openDuration)
         {
             t += Time.deltaTime;
-            transform.position = Vector3.Lerp(start, end, t / _openDuration);
+
+            transform.position = Vector3.Lerp(
+                start,
+                end,
+                t / _openDuration
+            );
+
             yield return null;
         }
+
+        transform.position = end;
     }
-}   
+
+    private Vector3 GetDirection()
+    {
+        return _slideDirection switch
+        {
+            SlideDirection.Up => Vector3.up,
+            SlideDirection.Down => Vector3.down,
+            SlideDirection.Left => Vector3.left,
+            SlideDirection.Right => Vector3.right,
+            _ => Vector3.up
+        };
+    }
+}
