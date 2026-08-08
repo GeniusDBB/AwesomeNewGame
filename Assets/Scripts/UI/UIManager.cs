@@ -12,6 +12,11 @@ public class UIManager : MonoBehaviour
     [Header("Quest Display")]
     [SerializeField] private TMP_Text _questText;
 
+    [Header("Key Socket UI")]
+    [SerializeField] private GameObject _keySocketPanel;
+    [SerializeField] private UnityEngine.UI.Image[] _keySlotIcons;
+
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -53,4 +58,29 @@ public class UIManager : MonoBehaviour
 
     // Later: ShowPauseMenu(), HidePauseMenu(), UpdateQuestLog(...), etc.
     // all future UI plugs into this same hub as new methods.
+
+    #region KeySocketUI
+
+    public void ShowKeySocketUI(int placed, int required)
+    {
+        _keySocketPanel.SetActive(true);
+        UpdateKeySocketUI(placed, required);
+    }
+
+    public void HideKeySocketUI()
+    {
+        _keySocketPanel.SetActive(false);
+    }
+
+    public void UpdateKeySocketUI(int placed, int required)
+    {
+        for (int i = 0; i < _keySlotIcons.Length; i++)
+        {
+            Color c = _keySlotIcons[i].color;
+            c.a = i < placed ? 1f : 0f;
+            _keySlotIcons[i].color = c;
+        }
+    }
+
+    #endregion
 }

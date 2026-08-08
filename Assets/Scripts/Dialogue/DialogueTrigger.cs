@@ -7,7 +7,7 @@ public class DialogueTrigger : MonoBehaviour
     private bool _hasTriggered;
 
     //KeyQuest
-    [SerializeField] private bool _startKeyQuest;
+    //[SerializeField] private bool _startKeyQuest;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -17,9 +17,9 @@ public class DialogueTrigger : MonoBehaviour
         _hasTriggered = true;
         DialogueManager.Instance.StartDialogue(_lines);
 
-        if (_startKeyQuest)
+        /*if (_startKeyQuest)
         {
             QuestManager.Instance.StartKeyQuest();
-        }
+        }*/
     }
 }
