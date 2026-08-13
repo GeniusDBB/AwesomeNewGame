@@ -114,9 +114,13 @@ public class PlayerMovement : MonoBehaviour
     private float _slopeAngle;
     private bool _isOnSlope;
 
-    //Ladder
+    // Ladder
     private Ladder _nearbyLadder;
     private bool _isOnLadder;
+
+    // Cinematic
+    private bool _isCutsceneWalking;
+    private Vector2 _cutsceneMoveInput;
 
     private void Awake()
     {
@@ -172,6 +176,14 @@ public class PlayerMovement : MonoBehaviour
         }
 
         CollisionChecks();
+
+        if (_isCutsceneWalking)
+        {
+            Move(MoveStats.GroundAcceleration, MoveStats.GroundDeceleration, _cutsceneMoveInput);
+            Fall();
+            ApplyVelocity();
+            return;
+        }
 
         if (_isOnLadder)
         {
@@ -1282,6 +1294,19 @@ public class PlayerMovement : MonoBehaviour
             HorizontalVelocity = slopeVelocity.x;
             VerticalVelocity = slopeVelocity.y;
         }
+    }
+
+    //Cutscenes
+    public void StartCutsceneWalk(float direction)
+    {
+        _isCutsceneWalking = true;
+        _cutsceneMoveInput = new Vector2(direction, 0f);
+    }
+
+    public void StopCutsceneWalk()
+    {
+        _isCutsceneWalking = false;
+        _cutsceneMoveInput = Vector2.zero;
     }
 
     #endregion

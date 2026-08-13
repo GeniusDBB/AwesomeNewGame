@@ -126,4 +126,6 @@ public class DialogueManager : MonoBehaviour
         _dialoguePanel.SetActive(false);
         _playerMovement.SetFrozen(false);
     }
+
+    public bool IsDialogueFinished => !_dialogueActive;
 }
