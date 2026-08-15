@@ -14,7 +14,10 @@ public enum CinematicStepType
     ZoomCamera,
     PlayDialogue,
     Shake,
-    OpenFakeWall
+    OpenFakeWall,
+    StartCaveIn,
+    TurnPlayer,
+    Bark
 }
 
 [System.Serializable]
@@ -38,4 +41,11 @@ public class CinematicStep
 
     [Header("Fake Wall")]
     public FakeWall Wall;
+
+    public CaveInSequence CaveIn;
+
+    [Header("Turn / Bark")]
+    public string BarkSpeaker;
+    [TextArea] public string BarkText;
+
 }

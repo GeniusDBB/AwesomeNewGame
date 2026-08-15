@@ -128,4 +128,19 @@ public class DialogueManager : MonoBehaviour
     }
 
     public bool IsDialogueFinished => !_dialogueActive;
+
+    //Cinematic Bark
+    public void ShowBark(string speakerName, string text, float duration)
+    {
+        StartCoroutine(BarkRoutine(speakerName, text, duration));
+    }
+
+    private IEnumerator BarkRoutine(string speakerName, string text, float duration)
+    {
+        _dialoguePanel.SetActive(true);
+        _nameText.text = speakerName;
+        _bodyText.text = text;
+        yield return new WaitForSeconds(duration);
+        _dialoguePanel.SetActive(false);
+    }
 }

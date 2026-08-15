@@ -1309,6 +1309,12 @@ public class PlayerMovement : MonoBehaviour
         _cutsceneMoveInput = Vector2.zero;
     }
 
+    public void ForceFacing(bool faceRight)
+    {
+        if (_isFacingRight == faceRight) return;
+        Turn(faceRight);
+    }
+
     #endregion
 
     public bool IsGround => _isGrounded;

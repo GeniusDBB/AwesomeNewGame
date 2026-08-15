@@ -75,6 +75,18 @@ public class CinematicPlayer : MonoBehaviour
             case CinematicStepType.OpenFakeWall:
                 yield return step.Wall.Open();
                 break;
+
+            case CinematicStepType.StartCaveIn:
+                step.CaveIn.StartCaveIn();
+                break;
+            case CinematicStepType.TurnPlayer:
+                _player.ForceFacing(step.FloatA > 0);
+                break;
+
+            case CinematicStepType.Bark:
+                DialogueManager.Instance.ShowBark(step.BarkSpeaker, step.BarkText, step.FloatA);
+                break;
+
         }
     }
 

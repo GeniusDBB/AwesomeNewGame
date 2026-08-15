@@ -23,6 +23,8 @@ public class CameraManager : MonoBehaviour
 
     private float _normYPanAmount;
 
+    //NarrowPassage
+
     //Stari awake prije neg kaj sam dodo player persistent
     /*private void Awake()
     {
@@ -152,6 +154,12 @@ public class CameraManager : MonoBehaviour
 
         player.SetFrozen(false);
     }
+
+    #endregion
+
+    #region Narrow Passage
+
+    
 
     #endregion
 }
