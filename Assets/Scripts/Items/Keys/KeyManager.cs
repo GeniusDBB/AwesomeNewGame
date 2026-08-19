@@ -27,12 +27,28 @@ public class KeyManager : MonoBehaviour
 
     private void Start()
     {
+        _collectedKeys = Mathf.Min(SaveManager.Instance.Data.CollectedKeys, _requiredKeys);
+        OnKeyCountChanged?.Invoke(_collectedKeys, _requiredKeys);
+
+        SaveManager.Instance.OnSaveReverted += RefreshFromSave;
+    }
+
+    private void OnDestroy()
+    {
+        if (SaveManager.Instance != null)
+            SaveManager.Instance.OnSaveReverted -= RefreshFromSave;
+    }
+
+    private void RefreshFromSave()
+    {
+        _collectedKeys = Mathf.Min(SaveManager.Instance.Data.CollectedKeys, _requiredKeys);
         OnKeyCountChanged?.Invoke(_collectedKeys, _requiredKeys);
     }
 
     public void AddKey()
     {
         _collectedKeys = Mathf.Min(_collectedKeys + 1, _requiredKeys);
+        SaveManager.Instance.Data.CollectedKeys = _collectedKeys;
         OnKeyCountChanged?.Invoke(_collectedKeys, _requiredKeys);
     }
 }

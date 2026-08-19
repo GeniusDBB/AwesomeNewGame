@@ -15,6 +15,16 @@ public class DoorInteractable : MonoBehaviour, IInteractable
 
     public int PlacedKeys => _placedKeys;
 
+    [SerializeField] private string _saveId;
+    private void Start()
+    {
+        if (SaveManager.Instance.HasFlag(_saveId))
+        {
+            _isOpen = true;
+            // instantly reflect "open" state here too — disable collider, swap sprite, whatever fits
+        }
+    }
+
     public void Interact()
     {
         if (_isOpen) return;
@@ -38,6 +48,7 @@ public class DoorInteractable : MonoBehaviour, IInteractable
     private void OpenDoor()
     {
         _isOpen = true;
+        SaveManager.Instance.SetFlag(_saveId);
         QuestManager.Instance.CompleteKeyQuest();
         SceneTransitionManager.Instance.LoadScene(_targetScene, _targetSpawnId);
     }

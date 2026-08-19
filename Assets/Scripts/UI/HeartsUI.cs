@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 
 public class HeartsUI : MonoBehaviour
@@ -10,6 +11,27 @@ public class HeartsUI : MonoBehaviour
 
     private PlayerHealth _playerHealth;
     private readonly List<UnityEngine.UI.Image> _heartImages = new();
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        bool isMainMenu = scene.name == "MainMenu";
+        _heartsContainer.gameObject.SetActive(!isMainMenu);
+
+        if (isMainMenu)
+        {
+            _playerHealth = null; // force re-fetch next time we're back in gameplay
+        }
+    }
 
     private void Update()
     {
@@ -24,14 +46,6 @@ public class HeartsUI : MonoBehaviour
                 _playerHealth.OnHealthChanged += UpdateHearts;
                 UpdateHearts(_playerHealth.CurrentHealth, _playerHealth.MaxHealth);
             }
-        }
-    }
-
-    private void OnDisable()
-    {
-        if (_playerHealth != null)
-        {
-            _playerHealth.OnHealthChanged -= UpdateHearts;
         }
     }
 

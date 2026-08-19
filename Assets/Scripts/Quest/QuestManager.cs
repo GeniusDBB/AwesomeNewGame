@@ -5,8 +5,8 @@ public class QuestManager : MonoBehaviour
 {
     public static QuestManager Instance { get; private set; }
 
-    public bool KeyQuestActive { get; private set; }
-    public bool KeyQuestCompleted { get; private set; }
+    public bool KeyQuestActive => SaveManager.Instance.Data.KeyQuestActive;
+    public bool KeyQuestCompleted => SaveManager.Instance.Data.KeyQuestCompleted;
 
     public event Action OnQuestStateChanged;
 
@@ -25,14 +25,14 @@ public class QuestManager : MonoBehaviour
     public void StartKeyQuest()
     {
         if (KeyQuestActive) return;
-        KeyQuestActive = true;
+        SaveManager.Instance.Data.KeyQuestActive = true;
         OnQuestStateChanged?.Invoke();
     }
 
     public void CompleteKeyQuest()
     {
-        KeyQuestActive = false;
-        KeyQuestCompleted = true;
+        SaveManager.Instance.Data.KeyQuestActive = false;
+        SaveManager.Instance.Data.KeyQuestCompleted = true;
         OnQuestStateChanged?.Invoke();
     }
     #endregion

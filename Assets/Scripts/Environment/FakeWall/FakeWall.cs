@@ -56,4 +56,18 @@ public class FakeWall : MonoBehaviour
             _ => Vector3.up
         };
     }
+
+    //For save system to snap open
+    public void SnapOpen()
+    {
+        StopAllCoroutines();
+
+        Collider2D col = GetComponent<Collider2D>();
+        if (col != null)
+        {
+            col.enabled = false;
+        }
+
+        transform.position += GetDirection() * _openDistance;
+    }
 }

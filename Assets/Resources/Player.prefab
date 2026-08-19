@@ -5003,11 +5003,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: ff77e71a2186abf4f96fb33101e444ad, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 236.74365
+      value: 518.57825
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: ff77e71a2186abf4f96fb33101e444ad, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -28.399853
+      value: -3.26925
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: ff77e71a2186abf4f96fb33101e444ad, type: 3}
       propertyPath: m_LocalPosition.z
@@ -5081,6 +5081,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8653719598885068355, guid: ff77e71a2186abf4f96fb33101e444ad, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3415752297680287400}
+    - targetCorrespondingSourceObject: {fileID: -8653719598885068355, guid: ff77e71a2186abf4f96fb33101e444ad, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1053732309015659090}
     - targetCorrespondingSourceObject: {fileID: -8653719598885068355, guid: ff77e71a2186abf4f96fb33101e444ad, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3637122959870030597}
@@ -5232,6 +5235,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
   _maxHealth: 3
   _invincibilityDuration: 1
+  _isInvincible: 0
+--- !u!114 &1053732309015659090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8967973258644428588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39e934bbcc0a8f849a76750f92b5c92a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerRespawnHandler
+  _deathDelay: 2
 --- !u!114 &3637122959870030597
 MonoBehaviour:
   m_ObjectHideFlags: 0

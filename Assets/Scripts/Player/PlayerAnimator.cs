@@ -15,6 +15,7 @@ public class PlayerAnimator : MonoBehaviour
     private static readonly int Hash_IsDashing = Animator.StringToHash("IsDashing");
     private static readonly int Hash_IsAirDashing = Animator.StringToHash("IsAirDashing");
 
+
     private static readonly int Hash_Jump = Animator.StringToHash("Jump");
     private static readonly int Hash_Dash = Animator.StringToHash("Dash");
 
@@ -24,6 +25,10 @@ public class PlayerAnimator : MonoBehaviour
     private static readonly int Hash_Death = Animator.StringToHash("Death");
 
     private static readonly int Hash_IsOnLadder = Animator.StringToHash("IsOnLadder");
+
+    private static readonly int Hash_SitDown = Animator.StringToHash("SitDown");
+    private static readonly int Hash_GetUp = Animator.StringToHash("GetUp");
+    private static readonly int Hash_ResetToIdle = Animator.StringToHash("ResetToIdle");
 
     private bool _wasGrounded;
 
@@ -92,4 +97,8 @@ public class PlayerAnimator : MonoBehaviour
     {
         _animator.SetTrigger(Hash_Death);
     }
+
+    public void OnSitDown() => _animator.SetTrigger(Hash_SitDown);
+    public void OnGetUp() => _animator.SetTrigger(Hash_GetUp);
+    public void OnRevive() => _animator.SetTrigger(Hash_ResetToIdle);
 }

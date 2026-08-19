@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using Unity.VisualScripting;
+using System.Collections;
 
 public class UIManager : MonoBehaviour
 {
@@ -15,6 +16,9 @@ public class UIManager : MonoBehaviour
     [Header("Key Socket UI")]
     [SerializeField] private GameObject _keySocketPanel;
     [SerializeField] private UnityEngine.UI.Image[] _keySlotIcons;
+
+    [Header("Save Icon")]
+    [SerializeField] private GameObject _saveIcon;
 
 
     private void Awake()
@@ -80,6 +84,22 @@ public class UIManager : MonoBehaviour
             c.a = i < placed ? 1f : 0f;
             _keySlotIcons[i].color = c;
         }
+    }
+
+    #endregion
+
+    #region Save Icon
+
+    public void ShowSaveIcon(float duration = 1.2f)
+    {
+        StartCoroutine(SaveIconRoutine(duration));
+    }
+
+    private IEnumerator SaveIconRoutine(float duration)
+    {
+        _saveIcon.SetActive(true);
+        yield return new WaitForSeconds(duration);
+        _saveIcon.SetActive(false);
     }
 
     #endregion

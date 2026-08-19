@@ -101,4 +101,95 @@ public class SceneTransitionManager : MonoBehaviour
             _playerMovement = playerObj.GetComponent<PlayerMovement>();
         }
     }
+
+    //For loading game through main menu
+
+    public void LoadSceneAtPosition(string sceneName, Vector2 position, System.Action onComplete = null)
+    {
+        if (_isTransitioning) return;
+        _isTransitioning = true;
+        StartCoroutine(TransitionRoutineAtPosition(sceneName, position, onComplete));
+    }
+
+    private IEnumerator TransitionRoutineAtPosition(string sceneName, Vector2 position, System.Action onComplete)
+    {
+        EnsurePlayerReference();
+        _playerMovement?.SetFrozen(true);
+
+        yield return StartCoroutine(Fade(1f));
+
+        AsyncOperation load = SceneManager.LoadSceneAsync(sceneName);
+        while (!load.isDone)
+        {
+            yield return null;
+        }
+
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            player.transform.position = position;
+        }
+
+        yield return new WaitForSecondsRealtime(1f);
+        yield return StartCoroutine(Fade(0f));
+
+        _playerMovement?.SetFrozen(false);
+        _isTransitioning = false;
+
+        onComplete?.Invoke();
+    }
+
+    //Load scene if no checkpoints available
+    public void LoadSceneAtDefaultSpawn(string sceneName, System.Action onComplete = null)
+    {
+        if (_isTransitioning) return;
+        _isTransitioning = true;
+        StartCoroutine(TransitionRoutineDefaultSpawn(sceneName, onComplete));
+    }
+
+    private IEnumerator TransitionRoutineDefaultSpawn(string sceneName, System.Action onComplete)
+    {
+        EnsurePlayerReference();
+        _playerMovement?.SetFrozen(true);
+
+        yield return StartCoroutine(Fade(1f));
+
+        AsyncOperation load = SceneManager.LoadSceneAsync(sceneName);
+        while (!load.isDone)
+        {
+            yield return null;
+        }
+
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        var defaultSpawn = FindAnyObjectByType<SceneSpawnPoint>();
+        if (player != null && defaultSpawn != null)
+        {
+            player.transform.position = defaultSpawn.transform.position;
+        }
+
+        yield return new WaitForSecondsRealtime(1f);
+        yield return StartCoroutine(Fade(0f));
+
+        _playerMovement?.SetFrozen(false);
+        _isTransitioning = false;
+
+        onComplete?.Invoke();
+    }
+
+    //Quit to Main Menu
+    public void LoadSceneSimple(string sceneName)
+    {
+        if (_isTransitioning) return;
+        _isTransitioning = true;
+        StartCoroutine(TransitionRoutineSimple(sceneName));
+    }
+
+    private IEnumerator TransitionRoutineSimple(string sceneName)
+    {
+        yield return StartCoroutine(Fade(1f));
+        yield return SceneManager.LoadSceneAsync(sceneName);
+        yield return new WaitForSecondsRealtime(0.5f);
+        yield return StartCoroutine(Fade(0f));
+        _isTransitioning = false;
+    }
 }

@@ -1,15 +1,17 @@
 using UnityEngine;
 using System;
+using System.Collections;
 
 public class PlayerHealth : MonoBehaviour
 {
     [SerializeField] private int _maxHealth = 3;
     [SerializeField] private float _invincibilityDuration = 1f;
+    [SerializeField] private bool _isInvincible = false;
 
     private int _currentHealth;
-    private bool _isInvincible;
     private PlayerMovement _movement;
     private Rigidbody2D _rb;
+    private PlayerAnimator _animator;
 
     public int CurrentHealth => _currentHealth;
     public int MaxHealth => _maxHealth;
@@ -17,11 +19,14 @@ public class PlayerHealth : MonoBehaviour
     public event Action<int, int> OnHealthChanged; // (current, max)
     public event Action OnPlayerDied;
 
+    private bool _isDead;
+
     private void Awake()
     {
         _currentHealth = _maxHealth;
         _movement = GetComponent<PlayerMovement>();
         _rb = GetComponent<Rigidbody2D>();
+        _animator = GetComponent<PlayerAnimator>();
     }
 
     private void Start()
@@ -32,11 +37,10 @@ public class PlayerHealth : MonoBehaviour
 
     public void TakeDamage(int amount, Vector2 knockback)
     {
-        if (_isInvincible) return;
+        if (_isInvincible || _isDead) return;
 
         _currentHealth = Mathf.Max(0, _currentHealth - amount);
         _movement.ApplyKnockback(knockback);
-
         OnHealthChanged?.Invoke(_currentHealth, _maxHealth);
 
         if (_currentHealth <= 0)
@@ -45,6 +49,7 @@ public class PlayerHealth : MonoBehaviour
         }
         else
         {
+            _animator?.OnHurt();
             StartCoroutine(InvincibilityFrames());
         }
     }
@@ -64,6 +69,20 @@ public class PlayerHealth : MonoBehaviour
 
     private void Die()
     {
+        if (_isDead) return;
+        _isDead = true;
+
+        _animator?.OnDeath();
+        _movement.SetFrozen(true);
         OnPlayerDied?.Invoke();
+    }
+
+    public void Revive()
+    {
+        _animator?.OnRevive();
+        _currentHealth = _maxHealth;
+        _isDead = false;
+        _movement.SetFrozen(false);
+        OnHealthChanged?.Invoke(_currentHealth, _maxHealth);
     }
 }

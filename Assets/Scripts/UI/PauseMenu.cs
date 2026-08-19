@@ -5,11 +5,14 @@ public class PauseMenu : MonoBehaviour
 {
     [SerializeField] private GameObject _pausePanel;
     [SerializeField] private TMP_Text _questText;
+    [SerializeField] private GameObject _quitConfirmPanel;
 
     private bool _isPaused;
 
     private void Start()
     {
+        SaveManager.Instance.OnSaveReverted += RefreshQuestText;
+
         _pausePanel.SetActive(false);
 
         QuestManager.Instance.OnQuestStateChanged += RefreshQuestText;
@@ -46,7 +49,27 @@ public class PauseMenu : MonoBehaviour
         }
     }
 
-    // hook these to your UI buttons
     public void OnContinuePressed() => TogglePause();
     public void OnExitPressed() => Application.Quit();
+
+    //Quit Panel
+    public void OnQuitToMenuPressed()
+    {
+        _quitConfirmPanel.SetActive(true);
+    }
+
+    public void OnQuitConfirmYes()
+    {
+        SaveManager.Instance.RevertToLastSave();
+
+        Time.timeScale = 1f; // undo pause before leaving
+        _pausePanel.SetActive(false);
+        _quitConfirmPanel.SetActive(false);
+        SceneTransitionManager.Instance.LoadSceneSimple("MainMenu");
+    }
+
+    public void OnQuitConfirmNo()
+    {
+        _quitConfirmPanel.SetActive(false);
+    }
 }

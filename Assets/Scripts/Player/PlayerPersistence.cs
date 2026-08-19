@@ -14,4 +14,22 @@ public class PlayerPersistence : MonoBehaviour
         _instance = this;
         DontDestroyOnLoad(gameObject);
     }
+
+    private void OnEnable()
+    {
+        UnityEngine.SceneManagement.SceneManager.sceneLoaded += CheckIfMainMenu;
+    }
+
+    private void OnDisable()
+    {
+        UnityEngine.SceneManagement.SceneManager.sceneLoaded -= CheckIfMainMenu;
+    }
+
+    private void CheckIfMainMenu(UnityEngine.SceneManagement.Scene scene, UnityEngine.SceneManagement.LoadSceneMode mode)
+    {
+        if (scene.name == "MainMenu")
+        {
+            Destroy(gameObject);
+        }
+    }
 }
