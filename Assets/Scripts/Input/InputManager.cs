@@ -57,4 +57,10 @@ public class InputManager : MonoBehaviour
 
         PauseWasPressed = _pauseAction.WasPressedThisFrame();
     }
+
+    //For controller/keyboard
+    public static string CurrentPrompt(string keyboardText, string gamepadText)
+    {
+        return PlayerInput.currentControlScheme == "Gamepad" ? gamepadText : keyboardText;
+    }
 }

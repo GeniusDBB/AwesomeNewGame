@@ -1,5 +1,6 @@
-using UnityEngine;
 using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class KeyManager : MonoBehaviour
 {
@@ -14,6 +15,11 @@ public class KeyManager : MonoBehaviour
     public bool HasAllKeys => _collectedKeys >= _requiredKeys;
 
     public event Action<int, int> OnKeyCountChanged; // (current, required)
+
+    //First key pickup dialogue
+    [Header("First Key Dialogue")]
+    [SerializeField] private List<DialogueLine> _firstKeyDialogue;
+    private const string FirstKeyFlagId = "FirstKeyPickupDialogueShown";
 
     private void Awake()
     {
@@ -50,5 +56,11 @@ public class KeyManager : MonoBehaviour
         _collectedKeys = Mathf.Min(_collectedKeys + 1, _requiredKeys);
         SaveManager.Instance.Data.CollectedKeys = _collectedKeys;
         OnKeyCountChanged?.Invoke(_collectedKeys, _requiredKeys);
+
+        if (!SaveManager.Instance.HasFlag(FirstKeyFlagId))
+        {
+            SaveManager.Instance.SetFlag(FirstKeyFlagId);
+            DialogueManager.Instance.StartDialogue(_firstKeyDialogue);
+        }
     }
 }

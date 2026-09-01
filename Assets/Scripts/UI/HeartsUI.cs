@@ -12,6 +12,12 @@ public class HeartsUI : MonoBehaviour
     private PlayerHealth _playerHealth;
     private readonly List<UnityEngine.UI.Image> _heartImages = new();
 
+
+    private void Awake()
+    {
+        bool isMainMenu = SceneManager.GetActiveScene().name == "MainMenu";
+        _heartsContainer.gameObject.SetActive(!isMainMenu);
+    }
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;

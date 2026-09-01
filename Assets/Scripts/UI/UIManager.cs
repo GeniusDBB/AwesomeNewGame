@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using Unity.VisualScripting;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -19,6 +20,21 @@ public class UIManager : MonoBehaviour
 
     [Header("Save Icon")]
     [SerializeField] private GameObject _saveIcon;
+
+    [Header("Tutorial")]
+    [SerializeField] private GameObject _tutorialPanel;
+    [SerializeField] private TMP_Text _tutorialText;
+    [SerializeField] private CanvasGroup _tutorialCanvasGroup;
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
 
 
     private void Awake()
@@ -58,6 +74,16 @@ public class UIManager : MonoBehaviour
     public void UpdateKeyQuestText(int current, int required)
     {
         _questText.text = $"Collect all keys: {current}/{required}";
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "MainMenu")
+        {
+            HideInteractPrompt();
+            HideKeySocketUI();
+            HideTutorial();
+        }
     }
 
     // Later: ShowPauseMenu(), HidePauseMenu(), UpdateQuestLog(...), etc.
@@ -100,6 +126,35 @@ public class UIManager : MonoBehaviour
         _saveIcon.SetActive(true);
         yield return new WaitForSeconds(duration);
         _saveIcon.SetActive(false);
+    }
+
+    #endregion
+
+    #region Tutorial
+
+    public void ShowTutorial(string text)
+    {
+        _tutorialPanel.SetActive(true);
+        _tutorialText.text = text;
+        StartCoroutine(FadeCanvasGroup(_tutorialCanvasGroup, 1f));
+    }
+
+    public void HideTutorial()
+    {
+        StartCoroutine(FadeCanvasGroup(_tutorialCanvasGroup, 0f));
+    }
+
+    private System.Collections.IEnumerator FadeCanvasGroup(CanvasGroup group, float target)
+    {
+        float start = group.alpha;
+        float t = 0f;
+        while (t < 0.3f)
+        {
+            t += Time.deltaTime;
+            group.alpha = Mathf.Lerp(start, target, t / 0.3f);
+            yield return null;
+        }
+        group.alpha = target;
     }
 
     #endregion
