@@ -6,18 +6,18 @@ public class HeartsUI : MonoBehaviour
 {
     [SerializeField] private GameObject _heartPrefab;
     [SerializeField] private Transform _heartsContainer;
+    [SerializeField] private CanvasGroup _canvasGroup;
     [SerializeField] private Sprite _fullHeart;
     [SerializeField] private Sprite _emptyHeart;
 
     private PlayerHealth _playerHealth;
     private readonly List<UnityEngine.UI.Image> _heartImages = new();
 
-
     private void Awake()
     {
-        bool isMainMenu = SceneManager.GetActiveScene().name == "MainMenu";
-        _heartsContainer.gameObject.SetActive(!isMainMenu);
+        SetVisible(SceneManager.GetActiveScene().name != "MainMenu");
     }
+
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -31,12 +31,19 @@ public class HeartsUI : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         bool isMainMenu = scene.name == "MainMenu";
-        _heartsContainer.gameObject.SetActive(!isMainMenu);
+        SetVisible(!isMainMenu);
 
         if (isMainMenu)
         {
-            _playerHealth = null; // force re-fetch next time we're back in gameplay
+            _playerHealth = null;
         }
+    }
+
+    private void SetVisible(bool visible)
+    {
+        _canvasGroup.alpha = visible ? 1f : 0f;
+        _canvasGroup.interactable = visible;
+        _canvasGroup.blocksRaycasts = visible;
     }
 
     private void Update()

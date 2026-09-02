@@ -770,6 +770,7 @@ GameObject:
   - component: {fileID: 1888840294563920641}
   - component: {fileID: 8479728654001547291}
   - component: {fileID: 3170523017061725871}
+  - component: {fileID: 8979313017072107004}
   m_Layer: 5
   m_Name: HeartsContainer
   m_TagString: Untagged
@@ -836,8 +837,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HeartsUI
   _heartPrefab: {fileID: 6074958308348399754, guid: 829d8f7067d85d04393bdbb7ad806332, type: 3}
   _heartsContainer: {fileID: 1888840294563920641}
+  _canvasGroup: {fileID: 8979313017072107004}
   _fullHeart: {fileID: 4759958785438735162, guid: c8abf451e7ce001449e06a26d1e09d23, type: 3}
   _emptyHeart: {fileID: 6228035034694424555, guid: c8abf451e7ce001449e06a26d1e09d23, type: 3}
+--- !u!225 &8979313017072107004
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2048128541278581492}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &2446970298129014336
 GameObject:
   m_ObjectHideFlags: 0
