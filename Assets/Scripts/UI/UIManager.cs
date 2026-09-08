@@ -33,7 +33,7 @@ public class UIManager : MonoBehaviour
 
     private void OnDisable()
     {
-        SceneManager.sceneLoaded += OnSceneLoaded;
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
 
