@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: a45d7af011fd64148925290aeaf281f7
+guid: 0d9a8fda45ee7f9439061c2204788757
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1833247098351559992
-    second: Ladder_0
+      213: 989223482043390264
+    second: PauseMenu_Panel 1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -75,7 +75,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 2
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Ladder_0
+      name: PauseMenu_Panel 1_0
       rect:
         serializedVersion: 2
-        x: 133
-        y: 161
-        width: 244
-        height: 1222
+        x: 437
+        y: 183
+        width: 1113
+        height: 675
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 835a2c2e580017910800000000000000
-      internalID: 1833247098351559992
+      spriteID: 839dbaa048d6abd00800000000000000
+      internalID: 989223482043390264
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Ladder_0: 1833247098351559992
+      PauseMenu_Panel 1_0: 989223482043390264
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

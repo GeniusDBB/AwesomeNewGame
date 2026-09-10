@@ -107,7 +107,8 @@ public class UIManager : MonoBehaviour
         for (int i = 0; i < _keySlotIcons.Length; i++)
         {
             Color c = _keySlotIcons[i].color;
-            c.a = i < placed ? 1f : 0f;
+            //c.a = i < placed ? 1f : 0f;
+            c.a = i < placed ? 200f / 255f : 0f;
             _keySlotIcons[i].color = c;
         }
     }
