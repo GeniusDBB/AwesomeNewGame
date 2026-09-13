@@ -10,6 +10,7 @@ public class UIManager : MonoBehaviour
 
     [Header("Interact Prompt")]
     [SerializeField] private RectTransform _interactIcon;
+    [SerializeField] private Vector3 _interactPromptOffset = new Vector3(0f, 1.5f, 0f);
 
     [Header("Quest Display")]
     [SerializeField] private TMP_Text _questText;
@@ -69,7 +70,12 @@ public class UIManager : MonoBehaviour
 
     public void UpdateInteractIconPosition(Vector3 worldPosition)
     {
-        Vector3 screenPos = Camera.main.WorldToScreenPoint(worldPosition);
+        Camera cam = Camera.main;
+        if (cam == null) return;
+
+        Vector3 screenPos = cam.WorldToScreenPoint(worldPosition + _interactPromptOffset);
+
+        screenPos.z = 0f;
         _interactIcon.position = screenPos;
     }
 

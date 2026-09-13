@@ -45,6 +45,15 @@ public class BenchCheckpoint : MonoBehaviour, IInteractable
         _player.SetFrozen(true);
         _animator.OnSitDown();
 
+        PlayerHealth health = playerObj.GetComponent<PlayerHealth>();
+
+        // Restore health before saving.
+        health.RestoreFullHealth();
+
+        // Include the restored health in the save data.
+        SaveManager.Instance.Data.CurrentHealth = health.CurrentHealth;
+        SaveManager.Instance.Data.MaxHealth = health.MaxHealth;
+
         SaveManager.Instance.SetCheckpoint(_sceneName, _sitPosition.position);
         UIManager.Instance.ShowSaveIcon();
 

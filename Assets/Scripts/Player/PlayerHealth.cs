@@ -60,6 +60,11 @@ public class PlayerHealth : MonoBehaviour
         OnHealthChanged?.Invoke(_currentHealth, _maxHealth);
     }
 
+    public void RestoreFullHealth()
+    {
+        _currentHealth = MaxHealth;
+        OnHealthChanged?.Invoke(_currentHealth, MaxHealth);
+    }
     private System.Collections.IEnumerator InvincibilityFrames()
     {
         _isInvincible = true;

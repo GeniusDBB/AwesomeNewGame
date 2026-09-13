@@ -1,12 +1,16 @@
 using UnityEngine;
 
-public class LeverInteractable : MonoBehaviour, IInteractable
+public class LeverInteractable : MonoBehaviour,
+    IInteractable, IInteractionAvailability
 {
     [SerializeField] private CinematicPlayer _cinematic;
 
     [SerializeField] private string _saveId;
     [SerializeField] private FakeWall _wall;
+
     private bool _used;
+
+    public bool CanInteract => !_used;
 
     private void Start()
     {
@@ -19,8 +23,10 @@ public class LeverInteractable : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        if (_used) return;
+        if (!CanInteract) return;
+
         _used = true;
+
         SaveManager.Instance.SetFlag(_saveId);
         _cinematic.Play();
     }
