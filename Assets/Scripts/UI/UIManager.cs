@@ -47,6 +47,8 @@ public class UIManager : MonoBehaviour
         Instance = this;
 
         HideInteractPrompt();
+
+        ResetTutorial();
     }
 
     private void Start()
@@ -78,11 +80,12 @@ public class UIManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        ResetTutorial();
+
         if (scene.name == "MainMenu")
         {
             HideInteractPrompt();
             HideKeySocketUI();
-            HideTutorial();
         }
     }
 
@@ -133,29 +136,97 @@ public class UIManager : MonoBehaviour
 
     #region Tutorial
 
-    public void ShowTutorial(string text)
+    private Vector3 _tutorialWorldPosition;
+    private Coroutine _tutorialFadeRoutine;
+
+    private void LateUpdate()
     {
-        _tutorialPanel.SetActive(true);
+        if (_tutorialPanel.activeSelf)
+        {
+            UpdateTutorialPosition();
+        }
+    }
+
+    private void UpdateTutorialPosition()
+    {
+        Camera cam = Camera.main;
+        if (cam == null) return;
+
+        Vector3 screenPosition =
+            cam.WorldToScreenPoint(_tutorialWorldPosition);
+
+        // Overlay UI uses screen X/Y; camera depth isn't needed.
+        screenPosition.z = 0f;
+
+        _tutorialPanel.transform.position = screenPosition;
+    }
+
+    public void ShowTutorial(string text, Vector3 worldPosition)
+    {
+        _tutorialWorldPosition = worldPosition;
         _tutorialText.text = text;
-        StartCoroutine(FadeCanvasGroup(_tutorialCanvasGroup, 1f));
+
+        _tutorialPanel.SetActive(true);
+        UpdateTutorialPosition();
+
+        StartTutorialFade(1f);
     }
 
     public void HideTutorial()
     {
-        StartCoroutine(FadeCanvasGroup(_tutorialCanvasGroup, 0f));
+        StartTutorialFade(0f);
     }
 
-    private System.Collections.IEnumerator FadeCanvasGroup(CanvasGroup group, float target)
+    private void StartTutorialFade(float targetAlpha)
     {
-        float start = group.alpha;
-        float t = 0f;
-        while (t < 0.3f)
+        if (_tutorialFadeRoutine != null)
         {
-            t += Time.deltaTime;
-            group.alpha = Mathf.Lerp(start, target, t / 0.3f);
+            StopCoroutine(_tutorialFadeRoutine);
+        }
+
+        _tutorialFadeRoutine =
+            StartCoroutine(FadeTutorial(targetAlpha));
+    }
+
+    private IEnumerator FadeTutorial(float targetAlpha)
+    {
+        float startAlpha = _tutorialCanvasGroup.alpha;
+        float elapsed = 0f;
+        const float duration = 0.3f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+
+            _tutorialCanvasGroup.alpha = Mathf.Lerp(
+                startAlpha,
+                targetAlpha,
+                elapsed / duration
+            );
+
             yield return null;
         }
-        group.alpha = target;
+
+        _tutorialCanvasGroup.alpha = targetAlpha;
+
+        if (targetAlpha == 0f)
+        {
+            _tutorialPanel.SetActive(false);
+        }
+
+        _tutorialFadeRoutine = null;
+    }
+
+    private void ResetTutorial()
+    {
+        if (_tutorialFadeRoutine != null)
+        {
+            StopCoroutine(_tutorialFadeRoutine);
+            _tutorialFadeRoutine = null;
+        }
+
+        _tutorialCanvasGroup.alpha = 0f;
+        _tutorialPanel.SetActive(false);
     }
 
     #endregion

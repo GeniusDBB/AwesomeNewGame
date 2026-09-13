@@ -1392,7 +1392,7 @@ Transform:
   m_GameObject: {fileID: 86077969}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -985.36, y: -741.2, z: 0}
+  m_LocalPosition: {x: -986.19, y: -740, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -17070,7 +17070,7 @@ Transform:
   m_GameObject: {fileID: 128536696}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -971.99, y: -741.46, z: 0}
+  m_LocalPosition: {x: -971.34, y: -740, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -17431,6 +17431,7 @@ MonoBehaviour:
   _parallaxFactor: 0.3
   _lockY: 1
   _spritePrefab: {fileID: 1977050703}
+  _overlap: 0.05
 --- !u!4 &151426501
 Transform:
   m_ObjectHideFlags: 0
@@ -21337,6 +21338,7 @@ MonoBehaviour:
   _parallaxFactor: 0.5
   _lockY: 1
   _spritePrefab: {fileID: 717306406}
+  _overlap: 0.05
 --- !u!1 &251665065
 GameObject:
   m_ObjectHideFlags: 0
@@ -22683,6 +22685,7 @@ MonoBehaviour:
   _parallaxFactor: 0.3
   _lockY: 1
   _spritePrefab: {fileID: 25234251}
+  _overlap: 0.02
 --- !u!1 &367112509
 GameObject:
   m_ObjectHideFlags: 0
@@ -27080,7 +27083,7 @@ Transform:
   m_GameObject: {fileID: 703997908}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -39.58, y: -1.01, z: 0}
+  m_LocalPosition: {x: 219.6, y: -26.3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -28591,6 +28594,7 @@ MonoBehaviour:
   _parallaxFactor: 0.95
   _lockY: 1
   _spritePrefab: {fileID: 1599118227}
+  _overlap: 0.05
 --- !u!1 &881188027
 GameObject:
   m_ObjectHideFlags: 0
@@ -187702,6 +187706,7 @@ MonoBehaviour:
   _parallaxFactor: 0.5
   _lockY: 1
   _spritePrefab: {fileID: 93996075}
+  _overlap: 0.01
 --- !u!1 &961768991
 GameObject:
   m_ObjectHideFlags: 0
@@ -188693,7 +188698,7 @@ Transform:
   m_GameObject: {fileID: 1021405386}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -951.03, y: -741.46, z: 0}
+  m_LocalPosition: {x: -951.21, y: -740.11, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -189092,6 +189097,7 @@ MonoBehaviour:
   _parallaxFactor: 0.9
   _lockY: 1
   _spritePrefab: {fileID: 250072482}
+  _overlap: 0.05
 --- !u!4 &1068360734
 Transform:
   m_ObjectHideFlags: 0
@@ -198724,6 +198730,7 @@ MonoBehaviour:
   _parallaxFactor: 0.7
   _lockY: 1
   _spritePrefab: {fileID: 1618719827}
+  _overlap: 0.05
 --- !u!1 &1318326665
 GameObject:
   m_ObjectHideFlags: 0
@@ -200089,6 +200096,7 @@ MonoBehaviour:
   _parallaxFactor: 0.5
   _lockY: 1
   _spritePrefab: {fileID: 206278896}
+  _overlap: 0.05
 --- !u!4 &1481675599
 Transform:
   m_ObjectHideFlags: 0
@@ -200569,6 +200577,7 @@ MonoBehaviour:
   _parallaxFactor: 0.95
   _lockY: 1
   _spritePrefab: {fileID: 516113645}
+  _overlap: 0.01
 --- !u!1 &1546461735
 GameObject:
   m_ObjectHideFlags: 0
@@ -200769,6 +200778,7 @@ MonoBehaviour:
   _parallaxFactor: 0.95
   _lockY: 1
   _spritePrefab: {fileID: 1867897583}
+  _overlap: 0.07
 --- !u!1 &1558523835
 GameObject:
   m_ObjectHideFlags: 0
@@ -200887,7 +200897,7 @@ Transform:
   m_GameObject: {fileID: 1563359018}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -728.3, y: -746.9, z: 0}
+  m_LocalPosition: {x: -728.3, y: -745.82, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -200941,7 +200951,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 2.237383, y: 0.37289727}
+  m_Offset: {x: 2.237383, y: -0.04399669}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -200951,7 +200961,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 5.474766, y: 1.7457945}
+  m_Size: {x: 5.474766, y: 2.5795825}
   m_EdgeRadius: 0
 --- !u!1 &1567017226
 GameObject:
@@ -201549,6 +201559,7 @@ MonoBehaviour:
   _parallaxFactor: 0.7
   _lockY: 1
   _spritePrefab: {fileID: 1956756199}
+  _overlap: 0.05
 --- !u!1 &1638157845
 GameObject:
   m_ObjectHideFlags: 0
@@ -204663,6 +204674,7 @@ MonoBehaviour:
   _parallaxFactor: 0.7
   _lockY: 1
   _spritePrefab: {fileID: 251665066}
+  _overlap: 0.05
 --- !u!4 &1916421199
 Transform:
   m_ObjectHideFlags: 0
@@ -204971,6 +204983,7 @@ MonoBehaviour:
   _parallaxFactor: 0.2
   _lockY: 1
   _spritePrefab: {fileID: 2022633232}
+  _overlap: 0.02
 --- !u!1 &1992716371
 GameObject:
   m_ObjectHideFlags: 0
@@ -210882,7 +210895,7 @@ Transform:
   m_GameObject: {fileID: 2035400464}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -925.97, y: -737.46, z: 0}
+  m_LocalPosition: {x: -925.54, y: -736.65, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

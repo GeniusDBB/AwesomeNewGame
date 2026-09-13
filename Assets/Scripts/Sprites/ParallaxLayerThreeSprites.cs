@@ -13,6 +13,8 @@ public class ParallaxLayerThreeSprites : MonoBehaviour
 
     private Transform[] _pieces = new Transform[3];
 
+    [SerializeField, Min(0f)] private float _overlap = 0.05f;
+
     private float _spriteWidth;
     private float _startY;
     private float _lastCamX;
@@ -21,7 +23,7 @@ public class ParallaxLayerThreeSprites : MonoBehaviour
     {
         _cam = Camera.main.transform;
 
-        _spriteWidth = _spritePrefab.bounds.size.x;
+        _spriteWidth = _spritePrefab.bounds.size.x - _overlap;
         _startY = transform.position.y;
 
         CreatePieces();
