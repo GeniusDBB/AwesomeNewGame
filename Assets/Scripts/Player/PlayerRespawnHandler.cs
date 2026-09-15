@@ -29,7 +29,7 @@ public class PlayerRespawnHandler : MonoBehaviour
 
     private IEnumerator RespawnRoutine()
     {
-        yield return new WaitForSeconds(_deathDelay);
+        yield return new WaitForSecondsRealtime(_deathDelay);
 
         var data = SaveManager.Instance.Data;
 
@@ -38,13 +38,27 @@ public class PlayerRespawnHandler : MonoBehaviour
             SceneTransitionManager.Instance.LoadSceneAtPosition(
                 data.CurrentScene,
                 new Vector2(data.CheckpointX, data.CheckpointY),
-                _health.Revive);
+                onBeforeReveal: ReviveLoadedPlayer);
         }
         else
         {
             SceneTransitionManager.Instance.LoadSceneAtDefaultSpawn(
-                UnityEngine.SceneManagement.SceneManager.GetActiveScene().name,
-                _health.Revive);
+                UnityEngine.SceneManagement.SceneManager
+                    .GetActiveScene().name,
+                onBeforeReveal: ReviveLoadedPlayer);
+        }
+    }
+
+    // Resolve the player in the loaded scene instead of holding
+    // a callback to a potentially destroyed PlayerHealth.
+    private static void ReviveLoadedPlayer()
+    {
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+        if (player != null &&
+            player.TryGetComponent<PlayerHealth>(out var health))
+        {
+            health.Revive();
         }
     }
 }

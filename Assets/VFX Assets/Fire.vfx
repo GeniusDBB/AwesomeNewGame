@@ -33,19 +33,13 @@ MonoBehaviour:
     - model: {fileID: 8926484042661614870}
       id: 0
       isStickyNote: 0
-    - model: {fileID: 8926484042661614872}
-      id: 0
-      isStickyNote: 0
-    - model: {fileID: 8926484042661614874}
-      id: 0
-      isStickyNote: 0
   stickyNoteInfos: []
   categories: []
   uiBounds:
     serializedVersion: 2
-    x: 643
+    x: 644
     y: -1433
-    width: 685
+    width: 684
     height: 1610
 --- !u!114 &114350483966674976
 MonoBehaviour:
@@ -57,7 +51,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7d4c867f6b72b714dbb5fd1780afe208, type: 3}
-  m_Name: Spirit
+  m_Name: Fire
   m_EditorClassIdentifier: 
   m_UIIgnoredErrors: []
   m_Parent: {fileID: 0}
@@ -85,7 +79,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"r":0.32314324378967287,"g":0.8631573915481567,"b":0.9822508692741394,"a":1.0}'
+      m_SerializableObject: '{"r":1.0,"g":0.814470112323761,"b":0.0,"a":1.0}'
     min: -Infinity
     max: Infinity
     enumValues: []
@@ -101,7 +95,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"r":0.04817183315753937,"g":0.4072403013706207,"b":0.9822508692741394,"a":1.0}'
+      m_SerializableObject: '{"r":1.0,"g":0.02042085863649845,"b":0.0,"a":1.0}'
     min: -Infinity
     max: Infinity
     enumValues: []
@@ -117,7 +111,7 @@ VisualEffectResource:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Spirit
+  m_Name: Fire
   m_Graph: {fileID: 114350483966674976}
   m_Infos:
     m_RendererSettings:
@@ -1273,7 +1267,7 @@ MonoBehaviour:
     - rid: 6848677921919860985
       type: {class: ParticleShadingShaderGraph, ns: UnityEditor.VFX, asm: Unity.VisualEffectGraph.Editor}
       data:
-        shaderGraph: {fileID: 4333940904281232215, guid: d993258dc72a4ca48a33f330b625dc16, type: 3}
+        shaderGraph: {fileID: 4333940904281232215, guid: 26d8354ccb36743498d8238f891514c5, type: 3}
         materialSettings:
           m_PropertyNames: []
           m_PropertyValues: []
@@ -2107,10 +2101,10 @@ MonoBehaviour:
     linkedSlots:
     - outputSlot: {fileID: 8926484042661614914}
       inputSlot: {fileID: 8926484042661614899}
-    position: {x: 643, y: -220}
+    position: {x: 644, y: -220}
     expandedSlots: []
     expanded: 1
-    supecollapsed: 0
+    supecollapsed: 1
 --- !u!114 &8926484042661614914
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2140,7 +2134,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"r":0.32314324378967287,"g":0.8631573915481567,"b":0.9822508692741394,"a":1.0}'
+      m_SerializableObject: '{"r":1.0,"g":0.814470112323761,"b":0.0,"a":1.0}'
     m_Space: -1
   m_Property:
     name: o
@@ -2357,7 +2351,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"r":0.04817183315753937,"g":0.4072403013706207,"b":0.9822508692741394,"a":1.0}'
+      m_SerializableObject: '{"r":1.0,"g":0.02042085863649845,"b":0.0,"a":1.0}'
     m_Space: -1
   m_Property:
     name: o

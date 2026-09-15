@@ -103,76 +103,106 @@ public class SceneTransitionManager : MonoBehaviour
     }
 
     //For loading game through main menu
-
-    public void LoadSceneAtPosition(string sceneName, Vector2 position, System.Action onComplete = null)
+    public void LoadSceneAtPosition(string sceneName, Vector2 position, System.Action onComplete = null, System.Action onBeforeReveal = null)
     {
         if (_isTransitioning) return;
+
         _isTransitioning = true;
-        StartCoroutine(TransitionRoutineAtPosition(sceneName, position, onComplete));
+
+        StartCoroutine(TransitionRoutineAtPosition(
+            sceneName, position, onComplete, onBeforeReveal));
     }
 
-    private IEnumerator TransitionRoutineAtPosition(string sceneName, Vector2 position, System.Action onComplete)
+    private IEnumerator TransitionRoutineAtPosition(
+        string sceneName,
+        Vector2 position,
+        System.Action onComplete,
+        System.Action onBeforeReveal)
     {
         EnsurePlayerReference();
-        _playerMovement?.SetFrozen(true);
+
+        if (_playerMovement != null)
+            _playerMovement.SetFrozen(true);
 
         yield return StartCoroutine(Fade(1f));
+        yield return SceneManager.LoadSceneAsync(sceneName);
 
-        AsyncOperation load = SceneManager.LoadSceneAsync(sceneName);
-        while (!load.isDone)
-        {
-            yield return null;
-        }
+        // Find the player again after loading.
+        _playerMovement = null;
+        EnsurePlayerReference();
 
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (player != null)
-        {
-            player.transform.position = position;
-        }
 
+        if (player != null)
+            player.transform.position = position;
+
+        // Revive and update hearts while the screen is black.
+        onBeforeReveal?.Invoke();
+
+        // Revive() unfreezes movement, so freeze again until revealed.
+        if (_playerMovement != null)
+            _playerMovement.SetFrozen(true);
+
+        // Give the camera, animation, and UI time to settle.
         yield return new WaitForSecondsRealtime(1f);
         yield return StartCoroutine(Fade(0f));
 
-        _playerMovement?.SetFrozen(false);
-        _isTransitioning = false;
+        if (_playerMovement != null)
+            _playerMovement.SetFrozen(false);
 
+        _isTransitioning = false;
         onComplete?.Invoke();
     }
 
+
     //Load scene if no checkpoints available
-    public void LoadSceneAtDefaultSpawn(string sceneName, System.Action onComplete = null)
+    public void LoadSceneAtDefaultSpawn(
+    string sceneName,
+    System.Action onComplete = null,
+    System.Action onBeforeReveal = null)
     {
         if (_isTransitioning) return;
+
         _isTransitioning = true;
-        StartCoroutine(TransitionRoutineDefaultSpawn(sceneName, onComplete));
+
+        StartCoroutine(TransitionRoutineDefaultSpawn(
+            sceneName, onComplete, onBeforeReveal));
     }
 
-    private IEnumerator TransitionRoutineDefaultSpawn(string sceneName, System.Action onComplete)
+    private IEnumerator TransitionRoutineDefaultSpawn(
+        string sceneName,
+        System.Action onComplete,
+        System.Action onBeforeReveal)
     {
         EnsurePlayerReference();
-        _playerMovement?.SetFrozen(true);
+
+        if (_playerMovement != null)
+            _playerMovement.SetFrozen(true);
 
         yield return StartCoroutine(Fade(1f));
+        yield return SceneManager.LoadSceneAsync(sceneName);
 
-        AsyncOperation load = SceneManager.LoadSceneAsync(sceneName);
-        while (!load.isDone)
-        {
-            yield return null;
-        }
+        _playerMovement = null;
+        EnsurePlayerReference();
 
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         var defaultSpawn = FindAnyObjectByType<SceneSpawnPoint>();
+
         if (player != null && defaultSpawn != null)
-        {
             player.transform.position = defaultSpawn.transform.position;
-        }
+
+        onBeforeReveal?.Invoke();
+
+        if (_playerMovement != null)
+            _playerMovement.SetFrozen(true);
 
         yield return new WaitForSecondsRealtime(1f);
         yield return StartCoroutine(Fade(0f));
 
-        _playerMovement?.SetFrozen(false);
-        _isTransitioning = false;
+        if (_playerMovement != null)
+            _playerMovement.SetFrozen(false);
 
+        _isTransitioning = false;
         onComplete?.Invoke();
     }
 

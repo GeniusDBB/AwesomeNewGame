@@ -21,12 +21,15 @@ public class PlayerHealth : MonoBehaviour
 
     private bool _isDead;
 
+    private PlayerVisualEffects _visualEffects;
+
     private void Awake()
     {
         _currentHealth = _maxHealth;
         _movement = GetComponent<PlayerMovement>();
         _rb = GetComponent<Rigidbody2D>();
         _animator = GetComponent<PlayerAnimator>();
+        _visualEffects = GetComponent<PlayerVisualEffects>();
     }
 
     private void Start()
@@ -37,7 +40,9 @@ public class PlayerHealth : MonoBehaviour
 
     public void TakeDamage(int amount, Vector2 knockback)
     {
-        if (_isInvincible || _isDead) return;
+        if (_isInvincible || _isDead || amount < 0) return;
+        if (_visualEffects != null) _visualEffects.PlayHurtFlash();
+        if (CameraManager.instance != null) CameraManager.instance.PlayHurtZoom();
 
         _currentHealth = Mathf.Max(0, _currentHealth - amount);
         _movement.ApplyKnockback(knockback);
@@ -84,6 +89,10 @@ public class PlayerHealth : MonoBehaviour
 
     public void Revive()
     {
+        if (_visualEffects != null)
+        {
+            _visualEffects.ResetFlash();
+        }
         _animator?.OnRevive();
         _currentHealth = _maxHealth;
         _isDead = false;
