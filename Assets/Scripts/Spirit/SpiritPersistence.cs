@@ -6,7 +6,12 @@ public class SpiritPersistence : MonoBehaviour
     private static SpiritPersistence _instance;
     private void Awake()
     {
-        if (_instance != null) { Destroy(gameObject); return; }
+        if (_instance != null)
+        {
+            gameObject.SetActive(false);
+            Destroy(gameObject);
+            return;
+        }
         _instance = this;
         DontDestroyOnLoad(gameObject);
     }
@@ -14,6 +19,7 @@ public class SpiritPersistence : MonoBehaviour
     private void OnEnable()
     {
         SceneManager.sceneLoaded += CheckIfMainMenu;
+        CheckIfMainMenu(SceneManager.GetActiveScene(), LoadSceneMode.Single);
     }
     private void OnDisable()
     {
@@ -21,6 +27,16 @@ public class SpiritPersistence : MonoBehaviour
     }
     private void CheckIfMainMenu(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name == "MainMenu") Destroy(gameObject);
+        if (scene.name == "MainMenu")
+        {
+            gameObject.SetActive(false);
+            Destroy(gameObject);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (_instance == this)
+            _instance = null;
     }
 }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerPersistence : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class PlayerPersistence : MonoBehaviour
     {
         if (_instance != null)
         {
+            gameObject.SetActive(false);
             Destroy(gameObject);
             return;
         }
@@ -17,19 +19,28 @@ public class PlayerPersistence : MonoBehaviour
 
     private void OnEnable()
     {
-        UnityEngine.SceneManagement.SceneManager.sceneLoaded += CheckIfMainMenu;
+        SceneManager.sceneLoaded += CheckIfMainMenu;
+        CheckIfMainMenu(SceneManager.GetActiveScene(), LoadSceneMode.Single);
     }
 
     private void OnDisable()
     {
-        UnityEngine.SceneManagement.SceneManager.sceneLoaded -= CheckIfMainMenu;
+        SceneManager.sceneLoaded -= CheckIfMainMenu;
     }
 
-    private void CheckIfMainMenu(UnityEngine.SceneManagement.Scene scene, UnityEngine.SceneManagement.LoadSceneMode mode)
+    private void CheckIfMainMenu(Scene scene, LoadSceneMode mode)
     {
         if (scene.name == "MainMenu")
         {
+            // Destroy is deferred; stop movement, physics and visuals immediately.
+            gameObject.SetActive(false);
             Destroy(gameObject);
         }
+    }
+
+    private void OnDestroy()
+    {
+        if (_instance == this)
+            _instance = null;
     }
 }

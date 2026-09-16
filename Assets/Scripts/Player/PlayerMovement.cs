@@ -1,7 +1,6 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.Rendering.UI;
 using System.Runtime.CompilerServices;
 using UnityEngine.XR;
 using UnityEngine.SceneManagement;
@@ -153,15 +152,19 @@ public class PlayerMovement : MonoBehaviour
         DashCheck();
 
         //--------CINEMACHINE----------
+        // A scene's camera can disappear before this persistent player is removed.
+        var cameraManager = CameraManager.instance;
+        if (cameraManager == null) return;
+
         //if we are falling past a certain speed threshold
-        if (_rb.linearVelocity.y < _fallSpeedYDampingChangeThreshold && !CameraManager.instance.IsLerpingYDamping && !CameraManager.instance.LerpedFromPlayerFalling) CameraManager.instance.LerpYDamping(true);
+        if (_rb.linearVelocity.y < _fallSpeedYDampingChangeThreshold && !cameraManager.IsLerpingYDamping && !cameraManager.LerpedFromPlayerFalling) cameraManager.LerpYDamping(true);
         //if we are standing still or moving up
-        if (_rb.linearVelocity.y >= 0f && !CameraManager.instance.IsLerpingYDamping && CameraManager.instance.LerpedFromPlayerFalling)
+        if (_rb.linearVelocity.y >= 0f && !cameraManager.IsLerpingYDamping && cameraManager.LerpedFromPlayerFalling)
         {
             //reset so it can be called again
-            CameraManager.instance.LerpedFromPlayerFalling = false;
+            cameraManager.LerpedFromPlayerFalling = false;
 
-            CameraManager.instance.LerpYDamping(false);
+            cameraManager.LerpYDamping(false);
         }
 
     }
@@ -259,10 +262,7 @@ public class PlayerMovement : MonoBehaviour
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
 
-        if (CameraManager.instance != null)
-        {
-            CameraManager.instance.SetFollowTarget(transform);
-        }
+        BindSceneCamera();
     }
 
     private void OnDisable()
@@ -272,8 +272,20 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        CameraManager.instance.SetFollowTarget(transform);
-        _fallSpeedYDampingChangeThreshold = CameraManager.instance._fallSpeedDampingChangeThreshold;
+        // MainMenu has no gameplay camera. Do not interrupt the sceneLoaded
+        // callbacks that deactivate and destroy the player and spirit.
+        if (scene.name == "MainMenu" || !isActiveAndEnabled) return;
+
+        BindSceneCamera();
+    }
+
+    private void BindSceneCamera()
+    {
+        var cameraManager = CameraManager.instance;
+        if (cameraManager == null) return;
+
+        cameraManager.SetFollowTarget(transform);
+        _fallSpeedYDampingChangeThreshold = cameraManager._fallSpeedDampingChangeThreshold;
     }
     //=================================
 
