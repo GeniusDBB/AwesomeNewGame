@@ -59,8 +59,10 @@ public class InputManager : MonoBehaviour
     }
 
     //For controller/keyboard
+    public static bool IsUsingGamepad => PlayerInput != null && PlayerInput.currentControlScheme == "Gamepad";
+
     public static string CurrentPrompt(string keyboardText, string gamepadText)
     {
-        return PlayerInput.currentControlScheme == "Gamepad" ? gamepadText : keyboardText;
+        return IsUsingGamepad ? gamepadText : keyboardText;
     }
 }

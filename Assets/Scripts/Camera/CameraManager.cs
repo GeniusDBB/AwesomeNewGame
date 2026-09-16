@@ -13,8 +13,6 @@ public class CameraManager : MonoBehaviour
     [SerializeField] private float _fallYPanTime = 0.35f;
     public float _fallSpeedDampingChangeThreshold = -15f;
 
-    //Player Shake
-    //=============================================================
     [Header("Hurt Zoom Pulse")]
     [SerializeField] private CinemachineBrain _brain;
 
@@ -33,141 +31,133 @@ public class CameraManager : MonoBehaviour
     private float _pulseStartSize;
     private float _pulseElapsed;
     private bool _zoomPulseActive;
-    //=============================================================
-
-    //Door Zoom Pulse
-    //=============================================================
-    [Header("Door Zoom Pulses")]
-    [SerializeField, Range(-0.15f, 0.15f)]
-    private float _doorStartZoomAmount = 0.025f;
-
-    [SerializeField, Range(-0.15f, 0.15f)]
-    private float _doorStopZoomAmount = 0.04f;
-
-    // Settings captured for the currently playing pulse.
-    private float _pulseAmount;
-    private float _pulseOutTime;
-    private float _pulseReturnTime;
-    //=============================================================
 
     public bool IsLerpingYDamping { get; private set; }
     public bool LerpedFromPlayerFalling { get; set; }
 
     private Coroutine _lerpYPanCoroutine;
-
     private CinemachineCamera _currentCamera;
     private CinemachinePositionComposer _positionComposer;
-
     private float _normYPanAmount;
 
     private void Awake()
     {
         if (instance == null)
-        {
             instance = this;
-        }
 
-        for (int i = 0; i < _allVirtualCameras.Length; i++)
+        foreach (CinemachineCamera cam in _allVirtualCameras)
         {
-            if (_allVirtualCameras[i].enabled)
-            {
-                _currentCamera = _allVirtualCameras[i];
-                _positionComposer = _currentCamera.GetComponent<CinemachinePositionComposer>();
-                break;
-            }
+            if (cam == null || !cam.enabled)
+                continue;
+
+            _currentCamera = cam;
+            _positionComposer =
+                cam.GetComponent<CinemachinePositionComposer>();
+
+            break;
         }
 
-        _normYPanAmount = _positionComposer.Damping.y;
+        if (_positionComposer != null)
+            _normYPanAmount = _positionComposer.Damping.y;
+    }
+
+    private void Update()
+    {
+        UpdateHurtZoom();
     }
 
     public void SetFollowTarget(Transform target)
     {
-        for (int i = 0; i < _allVirtualCameras.Length; i++)
+        foreach (CinemachineCamera cam in _allVirtualCameras)
         {
-            _allVirtualCameras[i].Follow = target;
-            _allVirtualCameras[i].PreviousStateIsValid = false;
-            // _allVirtualCameras[i].LookAt = target; // if you use LookAt too
+            if (cam == null) continue;
+
+            cam.Follow = target;
+            cam.PreviousStateIsValid = false;
         }
     }
 
-    #region Lerp the Y Damping
+    #region Lerp Y Damping
 
     public void LerpYDamping(bool isPlayerFalling)
     {
-        if (_lerpYPanCoroutine != null)
-        {
-            StopCoroutine(_lerpYPanCoroutine);
-        }
+        if (_positionComposer == null) return;
 
-        _lerpYPanCoroutine = StartCoroutine(LerpYAction(isPlayerFalling));
+        if (_lerpYPanCoroutine != null)
+            StopCoroutine(_lerpYPanCoroutine);
+
+        _lerpYPanCoroutine =
+            StartCoroutine(LerpYAction(isPlayerFalling));
     }
 
     private IEnumerator LerpYAction(bool isPlayerFalling)
     {
         IsLerpingYDamping = true;
 
-        //Grab the starting damping amount
-        float StartDampAmount = _positionComposer.Damping.y;
-        float endDampAmount = 0f;
+        float startAmount = _positionComposer.Damping.y;
+        float endAmount = isPlayerFalling
+            ? _fallPanAmount
+            : _normYPanAmount;
 
-        //determine the end damping amount
         if (isPlayerFalling)
-        {
-            endDampAmount = _fallPanAmount;
             LerpedFromPlayerFalling = true;
-        }
 
-        else
+        float elapsed = 0f;
+        float duration = Mathf.Max(0.01f, _fallYPanTime);
+
+        while (elapsed < duration && _positionComposer != null)
         {
-            endDampAmount = _normYPanAmount;
-        }
+            elapsed += Time.deltaTime;
 
-        //lerp the pan amount
-        float elapsedTime = 0f;
-        while(elapsedTime < _fallYPanTime)
-        {
-            elapsedTime += Time.deltaTime;
-
-            float lerpedPanAmount = Mathf.Lerp(StartDampAmount, endDampAmount, (elapsedTime / _fallYPanTime));
+            ;
 
             Vector3 damping = _positionComposer.Damping;
-            damping.y = lerpedPanAmount;
-            _positionComposer.Damping = damping;
+            damping.y = Mathf.Lerp(
+                startAmount,
+                endAmount,
+                elapsed / duration);
 
+            _positionComposer.Damping = damping;
 
             yield return null;
         }
 
         IsLerpingYDamping = false;
+        _lerpYPanCoroutine = null;
     }
 
     #endregion
 
-    #region LeverCinematic
+    #region Lever Cinematic
 
-    public IEnumerator PlayLeverCinematic(CinemachineCamera cutsceneCam, FakeWall wall, CinemachineImpulseSource impulseSource, PlayerMovement player)
+    // Kept with its existing signature for compatibility.
+    public IEnumerator PlayLeverCinematic(
+        CinemachineCamera cutsceneCam,
+        FakeWall wall,
+        CinemachineImpulseSource impulseSource,
+        PlayerMovement player)
     {
         player.SetFrozen(true);
 
         int originalPriority = cutsceneCam.Priority;
-        cutsceneCam.Priority = 999; // higher than any gameplay camera, forces the blend
+        cutsceneCam.Priority = 999;
 
-        yield return new WaitForSeconds(2f); // let the blend-to-wall finish and hold a beat
+        yield return new WaitForSeconds(2f);
 
         yield return StartCoroutine(wall.Open());
 
-        yield return new WaitForSeconds(1f); // hold on the open wall briefly
+        yield return new WaitForSeconds(1f);
 
-        cutsceneCam.Priority = originalPriority; // blend back to whichever gameplay cam has highest priority
+        cutsceneCam.Priority = originalPriority;
 
-        yield return new WaitForSeconds(2f); // let blend-back finish before returning control
+        yield return new WaitForSeconds(2f);
 
         player.SetFrozen(false);
     }
 
     #endregion
 
-    #region Zoom Pulse
+    #region Player Hurt Zoom
 
     public void PlayHurtZoom()
     {
@@ -178,12 +168,9 @@ public class CameraManager : MonoBehaviour
             Camera mainCamera = Camera.main;
 
             if (mainCamera != null)
-            {
                 _brain = mainCamera.GetComponent<CinemachineBrain>();
-            }
         }
 
-        // Avoid adding a pulse during a camera transition.
         if (_brain == null || _brain.IsBlending) return;
 
         CinemachineCamera activeCamera =
@@ -191,30 +178,29 @@ public class CameraManager : MonoBehaviour
 
         if (activeCamera == null) return;
 
-        // Preserve the original size if another hit restarts the pulse.
         if (!_zoomPulseActive || _pulseCamera != activeCamera)
         {
             CancelZoomPulse();
 
             _pulseCamera = activeCamera;
-            _pulseOriginalSize = activeCamera.Lens.OrthographicSize;
+            _pulseOriginalSize =
+                activeCamera.Lens.OrthographicSize;
         }
 
-        // Restart smoothly from the current size.
         _pulseStartSize = activeCamera.Lens.OrthographicSize;
         _pulseElapsed = 0f;
         _zoomPulseActive = true;
     }
 
-    private void Update()
+    private void UpdateHurtZoom()
     {
         if (!_zoomPulseActive) return;
 
-        // Restore the old camera if a transition starts.
         if (_pulseCamera == null ||
             _brain == null ||
             _brain.IsBlending ||
-             (_brain.ActiveVirtualCamera as CinemachineCamera) != _pulseCamera)
+            (_brain.ActiveVirtualCamera as CinemachineCamera)
+                != _pulseCamera)
         {
             CancelZoomPulse();
             return;
@@ -233,18 +219,18 @@ public class CameraManager : MonoBehaviour
         if (_pulseElapsed < outTime)
         {
             float t = _pulseElapsed / outTime;
-
-            // Fast initial response, slowing toward the peak.
             float easedT = 1f - (1f - t) * (1f - t);
 
-            size = Mathf.Lerp(_pulseStartSize, peakSize, easedT);
+            size = Mathf.Lerp(
+                _pulseStartSize, peakSize, easedT);
         }
         else if (_pulseElapsed < outTime + returnTime)
         {
             float t = (_pulseElapsed - outTime) / returnTime;
             float easedT = Mathf.SmoothStep(0f, 1f, t);
 
-            size = Mathf.Lerp(peakSize, _pulseOriginalSize, easedT);
+            size = Mathf.Lerp(
+                peakSize, _pulseOriginalSize, easedT);
         }
         else
         {
@@ -259,23 +245,32 @@ public class CameraManager : MonoBehaviour
     {
         if (_zoomPulseActive && _pulseCamera != null)
         {
-            _pulseCamera.Lens.OrthographicSize = _pulseOriginalSize;
+            _pulseCamera.Lens.OrthographicSize =
+                _pulseOriginalSize;
         }
 
         _zoomPulseActive = false;
         _pulseCamera = null;
     }
 
+    #endregion
+
     private void OnDisable()
     {
         CancelZoomPulse();
+
+        if (_lerpYPanCoroutine != null)
+        {
+            StopCoroutine(_lerpYPanCoroutine);
+            _lerpYPanCoroutine = null;
+        }
+
+        IsLerpingYDamping = false;
     }
 
-    #endregion
-
-    #region Narrow Passage
-
-
-
-    #endregion
+    private void OnDestroy()
+    {
+        if (instance == this)
+            instance = null;
+    }
 }

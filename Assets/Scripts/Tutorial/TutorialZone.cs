@@ -12,12 +12,7 @@ public class TutorialZone : MonoBehaviour
     {
         if (!other.CompareTag("Player")) return;
 
-        string text = InputManager.CurrentPrompt(
-            _keyboardText,
-            _gamepadText
-        );
-
-        UIManager.Instance.ShowTutorial(text, transform.position);
+        UIManager.Instance.ShowTutorial(_keyboardText, _gamepadText, transform.position);
     }
 
     private void OnTriggerExit2D(Collider2D other)

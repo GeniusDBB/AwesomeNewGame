@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class BenchCheckpoint : MonoBehaviour, IInteractable
+public class BenchCheckpoint : MonoBehaviour, IInteractable, IInteractionAvailability
 {
     [SerializeField] private string _sceneName;
     [SerializeField] private Transform _sitPosition;
@@ -12,6 +12,8 @@ public class BenchCheckpoint : MonoBehaviour, IInteractable
     private bool _isFullySeated;
     private PlayerMovement _player;
     private PlayerAnimator _animator;
+
+    public bool CanInteract => !_isSitting;
 
     private void Update()
     {

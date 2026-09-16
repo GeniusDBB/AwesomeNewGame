@@ -27,6 +27,15 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text _tutorialText;
     [SerializeField] private CanvasGroup _tutorialCanvasGroup;
 
+    [Header("Input distinction")]
+    [SerializeField] private UnityEngine.UI.Image _interactImage;
+    [SerializeField] private Sprite _keyboardInteractSprite;
+    [SerializeField] private Sprite _gamepadInteractSprite;
+    private string _tutorialKeyboardText;
+    private string _tutorialGamepadText;
+    [SerializeField] private TMP_SpriteAsset _keyboardTutorialSprites;
+    [SerializeField] private TMP_SpriteAsset _gamepadTutorialSprites;
+
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -57,8 +66,37 @@ public class UIManager : MonoBehaviour
         KeyManager.Instance.OnKeyCountChanged += UpdateKeyQuestText;
     }
 
+    private void Update()
+    {
+        if (_interactIcon.gameObject.activeInHierarchy)
+        {
+            RefreshInteractSprite();
+        }
+
+        if (_tutorialPanel.activeInHierarchy)
+        {
+            RefreshTutorialText();
+        }
+    }
+
+    private void RefreshInteractSprite()
+    {
+        if (_interactImage == null) return;
+
+        Sprite desiredSprite = InputManager.IsUsingGamepad
+            ? _gamepadInteractSprite
+            : _keyboardInteractSprite;
+
+        if (_interactImage.sprite != desiredSprite)
+        {
+            _interactImage.sprite = desiredSprite;
+        }
+    }
+
     public void ShowInteractPrompt(Vector3 worldPosition)
     {
+        RefreshInteractSprite();
+
         _interactIcon.gameObject.SetActive(true);
         UpdateInteractIconPosition(worldPosition);
     }
@@ -95,8 +133,6 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    // Later: ShowPauseMenu(), HidePauseMenu(), UpdateQuestLog(...), etc.
-    // all future UI plugs into this same hub as new methods.
 
     #region KeySocketUI
 
@@ -167,10 +203,13 @@ public class UIManager : MonoBehaviour
         _tutorialPanel.transform.position = screenPosition;
     }
 
-    public void ShowTutorial(string text, Vector3 worldPosition)
+    public void ShowTutorial(string keyboardText, string gamepadText, Vector3 worldPosition)
     {
+        _tutorialKeyboardText = keyboardText;
+        _tutorialGamepadText = gamepadText;
         _tutorialWorldPosition = worldPosition;
-        _tutorialText.text = text;
+
+        RefreshTutorialText();
 
         _tutorialPanel.SetActive(true);
         UpdateTutorialPosition();
@@ -178,6 +217,27 @@ public class UIManager : MonoBehaviour
         StartTutorialFade(1f);
     }
 
+    private void RefreshTutorialText()
+    {
+        TMP_SpriteAsset desiredAsset = InputManager.IsUsingGamepad
+            ? _gamepadTutorialSprites
+            : _keyboardTutorialSprites;
+
+        if (_tutorialText.spriteAsset != desiredAsset)
+        {
+            _tutorialText.spriteAsset = desiredAsset;
+        }
+
+        string desiredText = InputManager.CurrentPrompt(
+            _tutorialKeyboardText,
+            _tutorialGamepadText
+        );
+
+        if (_tutorialText.text != desiredText)
+        {
+            _tutorialText.text = desiredText;
+        }
+    }
     public void HideTutorial()
     {
         StartTutorialFade(0f);

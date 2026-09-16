@@ -1229,6 +1229,11 @@ MonoBehaviour:
   _tutorialPanel: {fileID: 217886821419303879}
   _tutorialText: {fileID: 7843722616304006168}
   _tutorialCanvasGroup: {fileID: 8523504975510555780}
+  _interactImage: {fileID: 1227829571600990438}
+  _keyboardInteractSprite: {fileID: 1761592069990035019, guid: 3c1aea98f45918a4dbd74b51045b7767, type: 3}
+  _gamepadInteractSprite: {fileID: -1968997647437270879, guid: 07e90d945d7661f4abbde9a1afbd9539, type: 3}
+  _keyboardTutorialSprites: {fileID: 11400000, guid: 17335a923e1f98841979b4b7e1997e76, type: 2}
+  _gamepadTutorialSprites: {fileID: 11400000, guid: 57eabe6f6e2f38748bbf5f67e52d4662, type: 2}
 --- !u!1 &4478351639044351120
 GameObject:
   m_ObjectHideFlags: 0
@@ -2086,7 +2091,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 80, y: 95}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6965549859428604837
 CanvasRenderer:
@@ -2116,7 +2121,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: c522ed76640cced41bcbc33bd321f555, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3144,7 +3149,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1796397188371266779
 RectTransform:
   m_ObjectHideFlags: 0

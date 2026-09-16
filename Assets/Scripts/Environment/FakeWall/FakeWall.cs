@@ -1,5 +1,4 @@
 using System.Collections;
-using Unity.Cinemachine;
 using UnityEngine;
 
 public class FakeWall : MonoBehaviour
@@ -14,18 +13,20 @@ public class FakeWall : MonoBehaviour
 
     [SerializeField] private float _openDistance = 3f;
     [SerializeField] private float _openDuration = 1f;
-    [SerializeField] private SlideDirection _slideDirection = SlideDirection.Up;
+    [SerializeField]
+    private SlideDirection _slideDirection =
+        SlideDirection.Up;
 
-    [SerializeField] private CinemachineImpulseSource _impulseSource;
+    [Header("Door Camera Shake")]
+    [SerializeField] private DoorCameraShake _cameraShake;
 
     public IEnumerator Open()
     {
         Vector3 start = transform.position;
+        Vector3 end = start + GetDirection() * _openDistance;
 
-        Vector3 direction = GetDirection();
-        Vector3 end = start + direction * _openDistance;
-
-        _impulseSource.GenerateImpulse();
+        if (_cameraShake != null)
+            _cameraShake.PlayShake(_openDuration);
 
         float t = 0f;
 
@@ -36,13 +37,15 @@ public class FakeWall : MonoBehaviour
             transform.position = Vector3.Lerp(
                 start,
                 end,
-                t / _openDuration
-            );
+                t / _openDuration);
 
             yield return null;
         }
 
         transform.position = end;
+
+        if (_cameraShake != null)
+            _cameraShake.StopShake();
     }
 
     private Vector3 GetDirection()
@@ -57,17 +60,24 @@ public class FakeWall : MonoBehaviour
         };
     }
 
-    //For save system to snap open
     public void SnapOpen()
     {
         StopAllCoroutines();
 
+        if (_cameraShake != null)
+            _cameraShake.StopShake();
+
         Collider2D col = GetComponent<Collider2D>();
+
         if (col != null)
-        {
             col.enabled = false;
-        }
 
         transform.position += GetDirection() * _openDistance;
+    }
+
+    private void OnDisable()
+    {
+        if (_cameraShake != null)
+            _cameraShake.StopShake();
     }
 }

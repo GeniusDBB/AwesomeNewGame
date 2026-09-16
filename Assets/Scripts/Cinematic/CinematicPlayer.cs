@@ -68,10 +68,6 @@ public class CinematicPlayer : MonoBehaviour
                 }
                 break;
 
-            case CinematicStepType.Shake:
-                step.ImpulseSource.GenerateImpulse();
-                break;
-
             case CinematicStepType.OpenFakeWall:
                 yield return step.Wall.Open();
                 break;
