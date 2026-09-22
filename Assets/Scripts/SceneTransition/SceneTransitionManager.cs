@@ -10,6 +10,11 @@ public class SceneTransitionManager : MonoBehaviour
     [SerializeField] private float _fadeDuration = 0.5f;
 
     private bool _isTransitioning;
+    public bool IsTransitioning => _isTransitioning;
+
+    // Optional hook for presentation layers that must be ready before the
+    // existing fade reveals the newly loaded scene.
+    public event System.Action SceneRevealStarting;
 
     private PlayerMovement _playerMovement;
 
@@ -45,6 +50,7 @@ public class SceneTransitionManager : MonoBehaviour
 
         yield return new WaitForSecondsRealtime(1f);
 
+        SceneRevealStarting?.Invoke();
         yield return StartCoroutine(Fade(0f));
 
         _playerMovement?.SetFrozen(false);

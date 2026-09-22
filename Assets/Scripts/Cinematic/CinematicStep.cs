@@ -17,7 +17,8 @@ public enum CinematicStepType
     OpenFakeWall,
     StartCaveIn,
     TurnPlayer,
-    Bark
+    Bark,
+    PlayMusicOnce
 }
 
 [System.Serializable]
@@ -47,5 +48,8 @@ public class CinematicStep
     [Header("Turn / Bark")]
     public string BarkSpeaker;
     [TextArea] public string BarkText;
+
+    [Header("Music")]
+    public AudioClip Music;
 
 }

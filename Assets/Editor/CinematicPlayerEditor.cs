@@ -39,6 +39,10 @@ public class CinematicPlayerEditor : Editor
         EditorGUILayout.BeginVertical("box");
         EditorGUILayout.BeginHorizontal();
         EditorGUILayout.LabelField($"Step {index}: {stepType}", EditorStyles.boldLabel);
+        if (GUILayout.Button("Insert After", GUILayout.Width(90)))
+        {
+            _stepsProp.InsertArrayElementAtIndex(index + 1);
+        }
         if (GUILayout.Button("Remove", GUILayout.Width(70)))
         {
             _stepsProp.DeleteArrayElementAtIndex(index);
@@ -86,6 +90,9 @@ public class CinematicPlayerEditor : Editor
                 break;
             case CinematicStepType.StartCaveIn:
                 EditorGUILayout.PropertyField(step.FindPropertyRelative("CaveIn"));
+                break;
+            case CinematicStepType.PlayMusicOnce:
+                EditorGUILayout.PropertyField(step.FindPropertyRelative("Music"));
                 break;
         }
 

@@ -85,6 +85,12 @@ public class PauseMenu : MonoBehaviour
 
         InputManager.SetMenuInput(true);
 
+        if (UIManager.Instance != null)
+        {
+            // Tutorial fades use scaled time, so hide it immediately before pausing.
+            UIManager.Instance.HideTutorialImmediately();
+        }
+
         RefreshQuestText();
         ShowMenu(MenuState.Pause);
     }

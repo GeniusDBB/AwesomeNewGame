@@ -1,0 +1,456 @@
+fileFormatVersion: 2
+guid: 2717ff9d4508c924f99d93427e4b8c6f
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -6594884337208139030
+    second: 682f0693-b941-4927-9319-4d35cdb70137_0
+  - first:
+      213: 4598181037086978669
+    second: 682f0693-b941-4927-9319-4d35cdb70137_1
+  - first:
+      213: 3655991979051449892
+    second: 682f0693-b941-4927-9319-4d35cdb70137_2
+  - first:
+      213: -6956595891987268551
+    second: 682f0693-b941-4927-9319-4d35cdb70137_3
+  - first:
+      213: -607951186677276775
+    second: 682f0693-b941-4927-9319-4d35cdb70137_4
+  - first:
+      213: 1101184448865687278
+    second: 682f0693-b941-4927-9319-4d35cdb70137_5
+  - first:
+      213: -4745003448946960473
+    second: 682f0693-b941-4927-9319-4d35cdb70137_6
+  - first:
+      213: -8435685535363890714
+    second: 682f0693-b941-4927-9319-4d35cdb70137_7
+  - first:
+      213: 2747790896239451883
+    second: 682f0693-b941-4927-9319-4d35cdb70137_8
+  - first:
+      213: -3997299470448427102
+    second: 682f0693-b941-4927-9319-4d35cdb70137_9
+  - first:
+      213: 1891446856982268035
+    second: 682f0693-b941-4927-9319-4d35cdb70137_10
+  - first:
+      213: -2994820547200540172
+    second: 682f0693-b941-4927-9319-4d35cdb70137_11
+  - first:
+      213: -3408892477627383592
+    second: 682f0693-b941-4927-9319-4d35cdb70137_12
+  - first:
+      213: 4160009784337422866
+    second: 682f0693-b941-4927-9319-4d35cdb70137_13
+  - first:
+      213: -5996511294816431665
+    second: 682f0693-b941-4927-9319-4d35cdb70137_14
+  - first:
+      213: 974635368915123792
+    second: 682f0693-b941-4927-9319-4d35cdb70137_15
+  - first:
+      213: -3514393506201294495
+    second: 682f0693-b941-4927-9319-4d35cdb70137_16
+  - first:
+      213: 1949297203671902052
+    second: 682f0693-b941-4927-9319-4d35cdb70137_17
+  - first:
+      213: 7309916715694570754
+    second: 682f0693-b941-4927-9319-4d35cdb70137_18
+  - first:
+      213: 6624937135955295507
+    second: 682f0693-b941-4927-9319-4d35cdb70137_19
+  - first:
+      213: -7600495657526649723
+    second: 682f0693-b941-4927-9319-4d35cdb70137_20
+  - first:
+      213: 7804684970744074605
+    second: 682f0693-b941-4927-9319-4d35cdb70137_21
+  - first:
+      213: 142545459398864790
+    second: 682f0693-b941-4927-9319-4d35cdb70137_22
+  - first:
+      213: -7255525099769392142
+    second: 682f0693-b941-4927-9319-4d35cdb70137_23
+  - first:
+      213: -7581635450858218048
+    second: 682f0693-b941-4927-9319-4d35cdb70137_24
+  - first:
+      213: 3533836938011564092
+    second: 682f0693-b941-4927-9319-4d35cdb70137_25
+  - first:
+      213: -4266939612729826854
+    second: 682f0693-b941-4927-9319-4d35cdb70137_26
+  - first:
+      213: 1324869346999995011
+    second: 682f0693-b941-4927-9319-4d35cdb70137_27
+  - first:
+      213: 8805570412888437843
+    second: 682f0693-b941-4927-9319-4d35cdb70137_28
+  - first:
+      213: 1077947853851243375
+    second: 682f0693-b941-4927-9319-4d35cdb70137_29
+  - first:
+      213: 2185564597511946405
+    second: 682f0693-b941-4927-9319-4d35cdb70137_30
+  - first:
+      213: -4367854425251974917
+    second: 682f0693-b941-4927-9319-4d35cdb70137_31
+  - first:
+      213: -7961145019524506882
+    second: 682f0693-b941-4927-9319-4d35cdb70137_32
+  - first:
+      213: 573782183486232516
+    second: 682f0693-b941-4927-9319-4d35cdb70137_33
+  - first:
+      213: -4661108676884568319
+    second: 682f0693-b941-4927-9319-4d35cdb70137_34
+  - first:
+      213: -2563346153838570188
+    second: 682f0693-b941-4927-9319-4d35cdb70137_35
+  - first:
+      213: 1512421876604619325
+    second: 682f0693-b941-4927-9319-4d35cdb70137_36
+  - first:
+      213: 179551470850632673
+    second: 682f0693-b941-4927-9319-4d35cdb70137_37
+  - first:
+      213: 6860439310831156152
+    second: 682f0693-b941-4927-9319-4d35cdb70137_38
+  - first:
+      213: -8213257504654827649
+    second: 682f0693-b941-4927-9319-4d35cdb70137_39
+  - first:
+      213: 4726381019327722353
+    second: 682f0693-b941-4927-9319-4d35cdb70137_40
+  - first:
+      213: 198394564548719654
+    second: 682f0693-b941-4927-9319-4d35cdb70137_41
+  - first:
+      213: 4224731683830958753
+    second: 682f0693-b941-4927-9319-4d35cdb70137_42
+  - first:
+      213: 5317046546301446762
+    second: 682f0693-b941-4927-9319-4d35cdb70137_43
+  - first:
+      213: -5686450869320784025
+    second: 682f0693-b941-4927-9319-4d35cdb70137_44
+  - first:
+      213: 7261679898374741822
+    second: 682f0693-b941-4927-9319-4d35cdb70137_45
+  - first:
+      213: 3677911242267744639
+    second: 682f0693-b941-4927-9319-4d35cdb70137_46
+  - first:
+      213: 8887589651432526097
+    second: 682f0693-b941-4927-9319-4d35cdb70137_47
+  - first:
+      213: -9063191138807882433
+    second: 682f0693-b941-4927-9319-4d35cdb70137_48
+  - first:
+      213: -9174104239295311814
+    second: 682f0693-b941-4927-9319-4d35cdb70137_49
+  - first:
+      213: 4476517206793352692
+    second: 682f0693-b941-4927-9319-4d35cdb70137_50
+  - first:
+      213: 2838633056840410482
+    second: 682f0693-b941-4927-9319-4d35cdb70137_51
+  - first:
+      213: 1055685086359419000
+    second: 682f0693-b941-4927-9319-4d35cdb70137_52
+  - first:
+      213: -2219603969165324215
+    second: 682f0693-b941-4927-9319-4d35cdb70137_53
+  - first:
+      213: 2005537652834403274
+    second: 682f0693-b941-4927-9319-4d35cdb70137_54
+  - first:
+      213: 255804770784047581
+    second: 682f0693-b941-4927-9319-4d35cdb70137_55
+  - first:
+      213: 6928841287362605885
+    second: 682f0693-b941-4927-9319-4d35cdb70137_56
+  - first:
+      213: -9051693776926973996
+    second: 682f0693-b941-4927-9319-4d35cdb70137_57
+  - first:
+      213: -712113274671390686
+    second: 682f0693-b941-4927-9319-4d35cdb70137_58
+  - first:
+      213: 8034933055706139973
+    second: 682f0693-b941-4927-9319-4d35cdb70137_59
+  - first:
+      213: 5825878026018869133
+    second: 682f0693-b941-4927-9319-4d35cdb70137_60
+  - first:
+      213: -853564698089089373
+    second: 682f0693-b941-4927-9319-4d35cdb70137_61
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 2
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: BreakablePlatform_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 541
+        width: 510
+        height: 377
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f89c458bb089caa4b8d63dd3d6d5eb3a
+      internalID: -837021526
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BreakablePlatform_1
+      rect:
+        serializedVersion: 2
+        x: 510
+        y: 541
+        width: 510
+        height: 383
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 62ca1ce927353b843b970cc357adaf10
+      internalID: 179771430
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BreakablePlatform_2
+      rect:
+        serializedVersion: 2
+        x: 1020
+        y: 541
+        width: 510
+        height: 379
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: de02169afc8557549b952b5b8ef0c585
+      internalID: -1390148445
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BreakablePlatform_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 58
+        width: 510
+        height: 483
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2a85639962d406d419cebf008b2fa188
+      internalID: -1159965727
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BreakablePlatform_4
+      rect:
+        serializedVersion: 2
+        x: 511
+        y: 59
+        width: 510
+        height: 471
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ed4babf1bddafbf40bb1a6696ffcadd2
+      internalID: -224097981
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BreakablePlatform_5
+      rect:
+        serializedVersion: 2
+        x: 1020
+        y: 58
+        width: 510
+        height: 445
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0d5da19a780ad1345966ea210605be1f
+      internalID: -837329850
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: e8a47f8b29e94ab4dba1c3ffc252c6ad
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":510.0,"y":483.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      BreakablePlatform_0: -837021526
+      BreakablePlatform_1: 179771430
+      BreakablePlatform_2: -1390148445
+      BreakablePlatform_3: -1159965727
+      BreakablePlatform_4: -224097981
+      BreakablePlatform_5: -837329850
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -7,6 +7,7 @@ public class HeartsUI : MonoBehaviour
     [SerializeField] private GameObject _heartPrefab;
     [SerializeField] private Transform _heartsContainer;
     [SerializeField] private CanvasGroup _canvasGroup;
+    [SerializeField] private GameObject _healthBar;
     [SerializeField] private Sprite _fullHeart;
     [SerializeField] private Sprite _emptyHeart;
 
@@ -44,6 +45,11 @@ public class HeartsUI : MonoBehaviour
         _canvasGroup.alpha = visible ? 1f : 0f;
         _canvasGroup.interactable = visible;
         _canvasGroup.blocksRaycasts = visible;
+
+        if (_healthBar != null)
+        {
+            _healthBar.SetActive(visible);
+        }
     }
 
     private void Update()

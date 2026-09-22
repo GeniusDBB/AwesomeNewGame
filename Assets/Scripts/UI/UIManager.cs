@@ -36,6 +36,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_SpriteAsset _keyboardTutorialSprites;
     [SerializeField] private TMP_SpriteAsset _gamepadTutorialSprites;
 
+    public bool IsTutorialVisible =>
+        _tutorialPanel != null && _tutorialPanel.activeSelf;
+
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -44,6 +47,19 @@ public class UIManager : MonoBehaviour
     private void OnDisable()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            Instance = null;
+        }
+
+        if (KeyManager.Instance != null)
+        {
+            KeyManager.Instance.OnKeyCountChanged -= UpdateKeyQuestText;
+        }
     }
 
 
@@ -241,6 +257,18 @@ public class UIManager : MonoBehaviour
     public void HideTutorial()
     {
         StartTutorialFade(0f);
+    }
+
+    public void HideTutorialImmediately()
+    {
+        if (_tutorialFadeRoutine != null)
+        {
+            StopCoroutine(_tutorialFadeRoutine);
+            _tutorialFadeRoutine = null;
+        }
+
+        _tutorialCanvasGroup.alpha = 0f;
+        _tutorialPanel.SetActive(false);
     }
 
     private void StartTutorialFade(float targetAlpha)

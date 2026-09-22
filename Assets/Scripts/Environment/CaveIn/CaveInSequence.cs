@@ -19,7 +19,7 @@ public class CaveInSequence : MonoBehaviour
         foreach (var point in _spawnPoints)
         {
             Instantiate(_chunkPrefab, point.position, Quaternion.identity);
-            _impulseSource.GenerateImpulse();  // Shake za svaki instantiate
+            //_impulseSource.GenerateImpulse();  // Shake za svaki instantiate
             yield return new WaitForSeconds(_delayBetweenChunks);
         }
     }

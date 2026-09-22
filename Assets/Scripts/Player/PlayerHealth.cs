@@ -59,6 +59,18 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
+    public void InstantKill()
+    {
+        if (_isDead) return;
+
+        if (_visualEffects != null) _visualEffects.PlayHurtFlash();
+        if (CameraManager.instance != null) CameraManager.instance.PlayHurtZoom();
+
+        _currentHealth = 0;
+        OnHealthChanged?.Invoke(_currentHealth, _maxHealth);
+        Die();
+    }
+
     public void Heal(int amount)
     {
         _currentHealth = Mathf.Min(_maxHealth, _currentHealth + amount);

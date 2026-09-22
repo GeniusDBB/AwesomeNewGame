@@ -1,0 +1,633 @@
+fileFormatVersion: 2
+guid: 7e0a82c4f427f404fa43571457952c17
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -8175755864149544133
+    second: Landscape_Props_0
+  - first:
+      213: -1469416214467256283
+    second: Landscape_Props_1
+  - first:
+      213: 8257933845809108201
+    second: Landscape_Props_2
+  - first:
+      213: -2864372520999882413
+    second: Landscape_Props_3
+  - first:
+      213: -4358390028447654232
+    second: Landscape_Props_4
+  - first:
+      213: 1781513152158551745
+    second: Landscape_Props_5
+  - first:
+      213: -3939505596358701458
+    second: Landscape_Props_6
+  - first:
+      213: -6992652941205658423
+    second: Landscape_Props_7
+  - first:
+      213: -3269664002914439051
+    second: Landscape_Props_8
+  - first:
+      213: 3858599978018515184
+    second: Landscape_Props_9
+  - first:
+      213: 4105456226491546443
+    second: Landscape_Props_10
+  - first:
+      213: -3968617120186816460
+    second: Landscape_Props_11
+  - first:
+      213: 965292788739591520
+    second: Landscape_Props_12
+  - first:
+      213: -7491840292362117480
+    second: Landscape_Props_13
+  - first:
+      213: 2484121302221491813
+    second: Landscape_Props_14
+  - first:
+      213: 987789797888213047
+    second: Landscape_Props_15
+  - first:
+      213: -7386467776666168499
+    second: Landscape_Props_16
+  - first:
+      213: -7335869103150945338
+    second: Landscape_Props_17
+  - first:
+      213: 813043707005070094
+    second: Landscape_Props_18
+  - first:
+      213: 1312286692272248295
+    second: Landscape_Props_19
+  - first:
+      213: 8503417664419906373
+    second: Landscape_Props_20
+  - first:
+      213: 8791546414158409646
+    second: Landscape_Props_21
+  - first:
+      213: 4284165891215988976
+    second: Landscape_Props_22
+  - first:
+      213: -5499964091061269375
+    second: Landscape_Props_23
+  - first:
+      213: -6400019450087877666
+    second: Landscape_Props_24
+  - first:
+      213: 3052231303719082648
+    second: Landscape_Props_25
+  - first:
+      213: 3793561745730489100
+    second: Landscape_Props_26
+  - first:
+      213: 1099771703348399246
+    second: Landscape_Props_27
+  - first:
+      213: 2729671384472708230
+    second: Landscape_Props_28
+  - first:
+      213: -8445740983689501899
+    second: Landscape_Props_29
+  - first:
+      213: 2894531372080673443
+    second: Landscape_Props_30
+  - first:
+      213: 4085205311105530926
+    second: Landscape_Props_31
+  - first:
+      213: -2124544675580419697
+    second: Landscape_Props_32
+  - first:
+      213: 9077119002553397508
+    second: Landscape_Props_33
+  - first:
+      213: 1306172565527635999
+    second: Landscape_Props_34
+  - first:
+      213: 5089368507776894481
+    second: Landscape_Props_35
+  - first:
+      213: -376170516424626063
+    second: Landscape_Props_36
+  - first:
+      213: 3028350485078487383
+    second: Landscape_Props_37
+  - first:
+      213: 3065538804824702713
+    second: Landscape_Props_38
+  - first:
+      213: -3168215897668244984
+    second: Landscape_Props_39
+  - first:
+      213: -3999316368156439164
+    second: Landscape_Props_40
+  - first:
+      213: -8051259646408474328
+    second: Landscape_Props_41
+  - first:
+      213: 340170691768241001
+    second: Landscape_Props_42
+  - first:
+      213: 6761700662474622495
+    second: Landscape_Props_43
+  - first:
+      213: -3996217732848698439
+    second: Landscape_Props_44
+  - first:
+      213: -580886244091253010
+    second: Landscape_Props_45
+  - first:
+      213: -5521938462476147235
+    second: Landscape_Props_46
+  - first:
+      213: -3823816344954095613
+    second: Landscape_Props_47
+  - first:
+      213: -1107989435006076225
+    second: Landscape_Props_48
+  - first:
+      213: 4433462496451644814
+    second: Landscape_Props_49
+  - first:
+      213: -6266028661850491812
+    second: Landscape_Props_50
+  - first:
+      213: 5854648372789850041
+    second: Landscape_Props_51
+  - first:
+      213: 3987859871620421166
+    second: Landscape_Props_52
+  - first:
+      213: -926383168936695020
+    second: Landscape_Props_53
+  - first:
+      213: 7471624122656798943
+    second: Landscape_Props_54
+  - first:
+      213: -5655119473285758076
+    second: Landscape_Props_55
+  - first:
+      213: -9125896502309027115
+    second: Landscape_Props_56
+  - first:
+      213: 549871934406383698
+    second: Landscape_Props_57
+  - first:
+      213: 2549942211071030740
+    second: Landscape_Props_58
+  - first:
+      213: -2978742639162899508
+    second: Landscape_Props_59
+  - first:
+      213: 7493565729868534006
+    second: Landscape_Props_60
+  - first:
+      213: 173345489139994962
+    second: Landscape_Props_61
+  - first:
+      213: -6868414167447358257
+    second: Landscape_Props_62
+  - first:
+      213: 3378500772298497678
+    second: Landscape_Props_63
+  - first:
+      213: -1643518730888520370
+    second: Landscape_Props_64
+  - first:
+      213: 4790807138880365189
+    second: Landscape_Props_65
+  - first:
+      213: 4898921487672253148
+    second: Landscape_Props_66
+  - first:
+      213: -1829480865549739139
+    second: Landscape_Props_67
+  - first:
+      213: 2681612072980714843
+    second: Landscape_Props_68
+  - first:
+      213: 498885907233896790
+    second: Landscape_Props_69
+  - first:
+      213: -5871573933411670978
+    second: Landscape_Props_70
+  - first:
+      213: 2316723345915885792
+    second: Landscape_Props_71
+  - first:
+      213: 7581952601229867657
+    second: Landscape_Props_72
+  - first:
+      213: 4694353838576401256
+    second: Landscape_Props_73
+  - first:
+      213: 8532991310218862954
+    second: Landscape_Props_74
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 2
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Landscape_Props_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 681
+        width: 360
+        height: 326
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b33bc0bcb51e98e80800000000000000
+      internalID: -8175755864149544133
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Landscape_Props_1
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 681
+        width: 333
+        height: 326
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 520ea7dfcb59b9be0800000000000000
+      internalID: -1469416214467256283
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Landscape_Props_2
+      rect:
+        serializedVersion: 2
+        x: 694
+        y: 681
+        width: 386
+        height: 326
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9e4902294131a9270800000000000000
+      internalID: 8257933845809108201
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Landscape_Props_3
+      rect:
+        serializedVersion: 2
+        x: 1080
+        y: 872
+        width: 360
+        height: 135
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 35179654e54bf38d0800000000000000
+      internalID: -2864372520999882413
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Landscape_Props_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 355
+        width: 360
+        height: 326
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8aed5c16c53e383c0800000000000000
+      internalID: -4358390028447654232
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Landscape_Props_5
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 355
+        width: 389
+        height: 326
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1cec815e5c439b810800000000000000
+      internalID: 1781513152158551745
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Landscape_Props_6
+      rect:
+        serializedVersion: 2
+        x: 777
+        y: 355
+        width: 303
+        height: 326
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e6e406258801459c0800000000000000
+      internalID: -3939505596358701458
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Landscape_Props_7
+      rect:
+        serializedVersion: 2
+        x: 1080
+        y: 355
+        width: 360
+        height: 326
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9c4a8d9d23b15fe90800000000000000
+      internalID: -6992652941205658423
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Landscape_Props_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 147
+        width: 360
+        height: 208
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 570376ba9e1df92d0800000000000000
+      internalID: -3269664002914439051
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Landscape_Props_9
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 29
+        width: 360
+        height: 326
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0f8af1c7c308c8530800000000000000
+      internalID: 3858599978018515184
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Landscape_Props_10
+      rect:
+        serializedVersion: 2
+        x: 720
+        y: 29
+        width: 400
+        height: 326
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b4bb1f4bfa289f830800000000000000
+      internalID: 4105456226491546443
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Landscape_Props_11
+      rect:
+        serializedVersion: 2
+        x: 1123
+        y: 29
+        width: 317
+        height: 326
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4382bbd71c3ace8c0800000000000000
+      internalID: -3968617120186816460
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: f2e7b6f133770d04c92b305abf0fa673
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":360.0,"y":326.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      Landscape_Props_0: -8175755864149544133
+      Landscape_Props_1: -1469416214467256283
+      Landscape_Props_10: 4105456226491546443
+      Landscape_Props_11: -3968617120186816460
+      Landscape_Props_2: 8257933845809108201
+      Landscape_Props_3: -2864372520999882413
+      Landscape_Props_4: -4358390028447654232
+      Landscape_Props_5: 1781513152158551745
+      Landscape_Props_6: -3939505596358701458
+      Landscape_Props_7: -6992652941205658423
+      Landscape_Props_8: -3269664002914439051
+      Landscape_Props_9: 3858599978018515184
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

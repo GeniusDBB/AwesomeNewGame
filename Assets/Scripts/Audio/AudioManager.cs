@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -30,6 +31,7 @@ public class AudioManager : MonoBehaviour
 
     private AudioSource _musicSource;
     private AudioSource _sfxSource;
+    private Coroutine _musicResumeRoutine;
     private bool _settingsDirty;
 
     [RuntimeInitializeOnLoadMethod(
@@ -135,22 +137,89 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public void PlayMusic(AudioClip clip)
+    public void PlayMusic(AudioClip clip, bool loop = true)
     {
         if (!IsReady || clip == null) return;
 
+        CancelPendingMusicResume();
+        PlayMusicInternal(clip, loop);
+    }
+
+    public void PlayMusicOnceThenResume(AudioClip clip)
+    {
+        if (!IsReady || clip == null) return;
+
+        AudioClip previousClip = _musicSource.clip;
+        bool previousWasPlaying = _musicSource.isPlaying;
+        bool previousLoop = _musicSource.loop;
+        float previousTime = _musicSource.time;
+
+        CancelPendingMusicResume();
+        PlayMusicInternal(clip, loop: false);
+
+        if (previousClip != null && previousWasPlaying)
+        {
+            _musicResumeRoutine = StartCoroutine(
+                ResumeMusicAfterClip(
+                    clip,
+                    previousClip,
+                    previousLoop,
+                    previousTime));
+        }
+    }
+
+    private void PlayMusicInternal(
+        AudioClip clip,
+        bool loop,
+        float startTime = 0f)
+    {
+
         // Keep the current playback position across scene changes.
-        if (_musicSource.clip == clip && _musicSource.isPlaying)
+        if (_musicSource.clip == clip &&
+            _musicSource.isPlaying &&
+            _musicSource.loop == loop)
             return;
 
         _musicSource.clip = clip;
+        _musicSource.loop = loop;
+        _musicSource.time = Mathf.Clamp(startTime, 0f, clip.length);
         _musicSource.Play();
+    }
+
+    private IEnumerator ResumeMusicAfterClip(
+        AudioClip temporaryClip,
+        AudioClip previousClip,
+        bool previousLoop,
+        float previousTime)
+    {
+        while (_musicSource != null &&
+               _musicSource.clip == temporaryClip &&
+               _musicSource.isPlaying)
+        {
+            yield return null;
+        }
+
+        // A different system took over the music channel, so it decides what plays next.
+        if (_musicSource == null || _musicSource.clip != temporaryClip)
+            yield break;
+
+        _musicResumeRoutine = null;
+        PlayMusicInternal(previousClip, previousLoop, previousTime);
+    }
+
+    private void CancelPendingMusicResume()
+    {
+        if (_musicResumeRoutine == null) return;
+
+        StopCoroutine(_musicResumeRoutine);
+        _musicResumeRoutine = null;
     }
 
     public void StopMusic()
     {
         if (_musicSource == null) return;
 
+        CancelPendingMusicResume();
         _musicSource.Stop();
         _musicSource.clip = null;
     }

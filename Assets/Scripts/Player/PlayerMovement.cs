@@ -99,6 +99,7 @@ public class PlayerMovement : MonoBehaviour
 
     //Frozen for dialogue system -> update/fixed update
     private bool _isFrozen;
+    private bool _ignoreGravityWhileFrozen;
 
     //OneWay Platform
     private Collider2D _ignoredPlatformCollider;
@@ -172,6 +173,14 @@ public class PlayerMovement : MonoBehaviour
     {
         if (_isFrozen)
         {
+            if (_ignoreGravityWhileFrozen)
+            {
+                HorizontalVelocity = 0f;
+                VerticalVelocity = 0f;
+                _rb.linearVelocity = Vector2.zero;
+                return;
+            }
+
             CollisionChecks();
             Fall();
             ApplyVelocity();
@@ -1266,9 +1275,10 @@ public class PlayerMovement : MonoBehaviour
         _animator?.OnJumpStarted();
     }
 
-    public void SetFrozen(bool frozen)
+    public void SetFrozen(bool frozen, bool ignoreGravity = false)
     {
         _isFrozen = frozen;
+        _ignoreGravityWhileFrozen = frozen && ignoreGravity;
 
         if (frozen)
         {

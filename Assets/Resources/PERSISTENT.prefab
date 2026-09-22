@@ -812,6 +812,7 @@ MonoBehaviour:
   _heartPrefab: {fileID: 6074958308348399754, guid: 829d8f7067d85d04393bdbb7ad806332, type: 3}
   _heartsContainer: {fileID: 1888840294563920641}
   _canvasGroup: {fileID: 8979313017072107004}
+  _healthBar: {fileID: 7304652887823723420}
   _fullHeart: {fileID: 4606908045521496030, guid: f354b1d4d02b1984bb8484160693b7d6, type: 3}
   _emptyHeart: {fileID: -1031049354629045415, guid: 73fb3ea3b2ee2ad4a94b7007083e6ac2, type: 3}
 --- !u!225 &8979313017072107004

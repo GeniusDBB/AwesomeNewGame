@@ -83,6 +83,10 @@ public class CinematicPlayer : MonoBehaviour
                 DialogueManager.Instance.ShowBark(step.BarkSpeaker, step.BarkText, step.FloatA);
                 break;
 
+            case CinematicStepType.PlayMusicOnce:
+                AudioManager.Instance.PlayMusicOnceThenResume(step.Music);
+                break;
+
         }
     }
 
