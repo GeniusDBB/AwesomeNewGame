@@ -30,6 +30,22 @@ public class SceneTransitionManager : MonoBehaviour
         StartCoroutine(TransitionRoutine(sceneName, targetSpawnPointId));
     }
 
+    public void LoadDoorwayScene(
+        string sceneName,
+        string targetSpawnPointId,
+        float entryDirection,
+        float entryRunDuration)
+    {
+        if (_isTransitioning) return;
+
+        _isTransitioning = true;
+        StartCoroutine(DoorwayTransitionRoutine(
+            sceneName,
+            targetSpawnPointId,
+            entryDirection,
+            entryRunDuration));
+    }
+
     private IEnumerator TransitionRoutine(string sceneName, string spawnId)
     {
         EnsurePlayerReference();
@@ -54,6 +70,48 @@ public class SceneTransitionManager : MonoBehaviour
         yield return StartCoroutine(Fade(0f));
 
         _playerMovement?.SetFrozen(false);
+        _isTransitioning = false;
+    }
+
+    private IEnumerator DoorwayTransitionRoutine(
+        string sceneName,
+        string spawnId,
+        float entryDirection,
+        float entryRunDuration)
+    {
+        EnsurePlayerReference();
+        _playerMovement?.SetFrozen(true, ignoreGravity: true);
+
+        yield return StartCoroutine(Fade(1f));
+
+        yield return SceneManager.LoadSceneAsync(sceneName);
+
+        PlacePlayerAtSpawn(spawnId);
+
+        _playerMovement = null;
+        EnsurePlayerReference();
+
+        float direction = Mathf.Approximately(entryDirection, 0f)
+            ? 1f
+            : Mathf.Sign(entryDirection);
+
+        if (_playerMovement != null)
+        {
+            _playerMovement.ForceFacing(direction > 0f);
+            _playerMovement.StartCutsceneWalk(direction);
+        }
+
+        yield return new WaitForSecondsRealtime(0.12f);
+
+        SceneRevealStarting?.Invoke();
+        yield return StartCoroutine(Fade(0f));
+
+        _playerMovement?.SetFrozen(false);
+
+        if (entryRunDuration > 0f)
+            yield return new WaitForSeconds(entryRunDuration);
+
+        _playerMovement?.StopCutsceneWalk();
         _isTransitioning = false;
     }
 

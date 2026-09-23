@@ -5,6 +5,15 @@ using TMPro;
 
 public class PauseMenu : MonoBehaviour
 {
+    public static bool IsPauseAllowed { get; private set; } = true;
+
+    [RuntimeInitializeOnLoadMethod(
+        RuntimeInitializeLoadType.SubsystemRegistration)]
+    private static void ResetPausePermission()
+    {
+        IsPauseAllowed = true;
+    }
+
     private enum MenuState
     {
         Closed,
@@ -54,7 +63,8 @@ public class PauseMenu : MonoBehaviour
     private void LateUpdate()
     {
         if (_leavingScene ||
-            SceneManager.GetActiveScene().name == "MainMenu")
+            SceneManager.GetActiveScene().name == "MainMenu" ||
+            !IsPauseAllowed)
         {
             return;
         }
@@ -78,10 +88,11 @@ public class PauseMenu : MonoBehaviour
 
     private void OpenPause()
     {
-        if (IsPaused || _leavingScene) return;
+        if (IsPaused || _leavingScene || !IsPauseAllowed) return;
 
         _timeScaleBeforePause = Time.timeScale;
         Time.timeScale = 0f;
+        AudioManager.Instance?.SetPaused(true);
 
         InputManager.SetMenuInput(true);
 
@@ -103,6 +114,7 @@ public class PauseMenu : MonoBehaviour
 
         InputManager.SetMenuInput(false);
         Time.timeScale = _timeScaleBeforePause;
+        AudioManager.Instance?.SetPaused(false);
     }
 
     private void ShowMenu(MenuState state)
@@ -253,6 +265,8 @@ public class PauseMenu : MonoBehaviour
         if (IsPaused)
             Time.timeScale = _timeScaleBeforePause;
 
+        AudioManager.Instance?.SetPaused(false);
+
         _state = MenuState.Closed;
         HideAllPanels();
 
@@ -269,5 +283,14 @@ public class PauseMenu : MonoBehaviour
 
         if (KeyManager.Instance != null)
             KeyManager.Instance.OnKeyCountChanged -= OnKeyCountChanged;
+    }
+
+    /// <summary>
+    /// Lets scripted sequences temporarily prevent Escape/Start from opening
+    /// the pause menu.
+    /// </summary>
+    public static void SetPauseAllowed(bool allowed)
+    {
+        IsPauseAllowed = allowed;
     }
 }

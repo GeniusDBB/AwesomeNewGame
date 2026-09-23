@@ -18,8 +18,23 @@ public class CinematicPlayer : MonoBehaviour
 
     private IEnumerator RunSteps()
     {
-        foreach (var step in _steps)
+        for (int index = 0; index < _steps.Count; index++)
         {
+            CinematicStep step = _steps[index];
+
+            // A yielded step finishes on a later coroutine tick. If an
+            // Unfreeze step comes immediately before scripted walking, begin
+            // that walk first so no frame exists for player input to jump.
+            if (step.Type == CinematicStepType.UnfreezePlayer &&
+                index + 1 < _steps.Count &&
+                _steps[index + 1].Type == CinematicStepType.WalkPlayer)
+            {
+                yield return RunStep(_steps[index + 1]);
+                yield return RunStep(step);
+                index++;
+                continue;
+            }
+
             yield return RunStep(step);
         }
     }
@@ -29,11 +44,12 @@ public class CinematicPlayer : MonoBehaviour
         switch (step.Type)
         {
             case CinematicStepType.FreezePlayer:
-                _player.SetFrozen(true);
+                _player.SetCinematicFrozen(true);
                 break;
 
             case CinematicStepType.UnfreezePlayer:
-                _player.SetFrozen(false);
+                InputManager.IgnoreGameplayInputForFrames();
+                _player.SetCinematicFrozen(false);
                 break;
 
             case CinematicStepType.SwitchCamera:

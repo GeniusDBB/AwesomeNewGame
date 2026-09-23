@@ -36,9 +36,12 @@ public class OpeningCinematicSequence : MonoBehaviour
         // main-menu testing toggle that skips the whole opening.
         if (!isNewGameLaunch || !shouldPlay)
         {
+            PauseMenu.SetPauseAllowed(true);
             _sceneMusic?.Play();
             return;
         }
+
+        PauseMenu.SetPauseAllowed(false);
 
         GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
         _player = playerObject != null
@@ -47,7 +50,9 @@ public class OpeningCinematicSequence : MonoBehaviour
 
         // The transition already freezes the player.  Keeping this lock here
         // prevents a one-frame input window before the Timeline begins.
-        _player?.SetFrozen(true);
+        _player?.SetOpeningCinematicFrozen(
+            true,
+            ignoreGravity: true);
         _cinematicCanvas?.SetActive(true);
 
         // Do this behind the cinematic canvas so the player is fully seated
@@ -136,11 +141,16 @@ public class OpeningCinematicSequence : MonoBehaviour
         _sceneMusic?.Play();
 
         // Stay seated after the dialogue. BenchCheckpoint will release this
-        // lock through its existing get-up animation when the player moves.
+        // normal movement lock through its existing get-up animation when the
+        // player moves. The opening-specific lock can now safely be released.
         if (_openingBench != null && _openingBench.IsSitting)
             _player?.SetFrozen(true, ignoreGravity: true);
         else
             _player?.SetFrozen(false);
+
+        _player?.SetOpeningCinematicFrozen(false);
+        _openingBench?.ReleaseOpeningSeat();
+        PauseMenu.SetPauseAllowed(true);
     }
 
     private void OnDestroy()
@@ -150,5 +160,8 @@ public class OpeningCinematicSequence : MonoBehaviour
 
         if (_director != null)
             _director.stopped -= OnTimelineStopped;
+
+        _player?.SetOpeningCinematicFrozen(false);
+        PauseMenu.SetPauseAllowed(true);
     }
 }

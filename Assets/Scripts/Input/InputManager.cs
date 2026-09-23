@@ -107,6 +107,18 @@ public class InputManager : MonoBehaviour
         _ignoreInputThroughFrame = Time.frameCount + 1;
     }
 
+    /// <summary>
+    /// Prevents a button press that closes dialogue or a cinematic from also
+    /// becoming a gameplay action on the next available frame.
+    /// </summary>
+    public static void IgnoreGameplayInputForFrames(int frameCount = 1)
+    {
+        ClearGameplayInput();
+        _ignoreInputThroughFrame = Mathf.Max(
+            _ignoreInputThroughFrame,
+            Time.frameCount + Mathf.Max(0, frameCount));
+    }
+
     private static void ClearGameplayInput()
     {
         Movement = Vector2.zero;

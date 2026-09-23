@@ -26,7 +26,20 @@ public static class PlayerBootstrapper
 
         GameObject player = Object.Instantiate(prefab);
 
-        var defaultSpawn = Object.FindAnyObjectByType<SceneSpawnPoint>();
+        SceneSpawnPoint defaultSpawn = null;
+        var spawnPoints = Object.FindObjectsByType<SceneSpawnPoint>(
+            FindObjectsSortMode.None);
+
+        foreach (var point in spawnPoints)
+        {
+            if (point.SpawnId == scene.name)
+            {
+                defaultSpawn = point;
+                break;
+            }
+        }
+
+        defaultSpawn ??= Object.FindAnyObjectByType<SceneSpawnPoint>();
         if (defaultSpawn != null)
         {
             player.transform.position = defaultSpawn.transform.position;

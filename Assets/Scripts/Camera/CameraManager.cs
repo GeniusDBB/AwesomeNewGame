@@ -77,6 +77,25 @@ public class CameraManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Lets lightweight room scenes configure the project's normal Cinemachine
+    /// camera manager without introducing a second follow-camera system.
+    /// </summary>
+    public void ConfigureRoomCamera(
+        CinemachineCamera followCamera,
+        CinemachineBrain brain)
+    {
+        _allVirtualCameras = new[] { followCamera };
+        _brain = brain;
+        _currentCamera = followCamera;
+        _positionComposer = followCamera != null
+            ? followCamera.GetComponent<CinemachinePositionComposer>()
+            : null;
+
+        if (_positionComposer != null)
+            _normYPanAmount = _positionComposer.Damping.y;
+    }
+
     #region Lerp Y Damping
 
     public void LerpYDamping(bool isPlayerFalling)

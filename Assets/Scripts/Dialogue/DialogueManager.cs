@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -35,6 +36,16 @@ public class DialogueManager : MonoBehaviour
         Instance = this;
 
         _dialoguePanel.SetActive(false);
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     //LateUpdate zato jer sam stavio dialogue continue na jump i onda kad zavrsi razgovor skoci player
@@ -124,10 +135,27 @@ public class DialogueManager : MonoBehaviour
     {
         _dialogueActive = false;
         _dialoguePanel.SetActive(false);
-        _playerMovement.SetFrozen(false);
+        InputManager.IgnoreGameplayInputForFrames();
+        _playerMovement?.SetFrozen(false);
     }
 
     public bool IsDialogueFinished => !_dialogueActive;
+
+    /// <summary>
+    /// Stops a persistent dialogue immediately when gameplay is abandoned.
+    /// </summary>
+    public void CancelDialogue()
+    {
+        StopAllCoroutines();
+        _typingCoroutine = null;
+        _lineQueue.Clear();
+        _currentFullText = null;
+        _isTyping = false;
+        _dialogueActive = false;
+        _dialoguePanel.SetActive(false);
+        _continueIndicator.SetActive(false);
+        _playerMovement?.SetFrozen(false);
+    }
 
     //Cinematic Bark
     public void ShowBark(string speakerName, string text, float duration)
@@ -142,5 +170,11 @@ public class DialogueManager : MonoBehaviour
         _bodyText.text = text;
         yield return new WaitForSeconds(duration);
         _dialoguePanel.SetActive(false);
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "MainMenu")
+            CancelDialogue();
     }
 }

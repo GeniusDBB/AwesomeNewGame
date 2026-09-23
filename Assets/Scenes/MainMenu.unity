@@ -155,6 +155,7 @@ MonoBehaviour:
   _openingCinematicEndSpawnId: bench_intro
   _mainPanel: {fileID: 2100000000}
   _optionsPanel: {fileID: 2100000202}
+  _mainPanelFadeDuration: 1
   _mainFirstSelected: {fileID: 1995638505}
   _optionsFirstSelected: {fileID: 2100000203}
   _optionsButton: {fileID: 2100000100}

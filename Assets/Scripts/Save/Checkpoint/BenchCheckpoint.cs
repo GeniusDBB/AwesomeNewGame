@@ -10,6 +10,7 @@ public class BenchCheckpoint : MonoBehaviour, IInteractable, IInteractionAvailab
 
     private bool _isSitting;
     private bool _isFullySeated;
+    private bool _isOpeningSeat;
     private PlayerMovement _player;
     private PlayerAnimator _animator;
 
@@ -18,6 +19,11 @@ public class BenchCheckpoint : MonoBehaviour, IInteractable, IInteractionAvailab
 
     private void Update()
     {
+        // The opening sequence seats the player before the Timeline starts.
+        // Do not let horizontal input stand them up behind that sequence.
+        if (_isOpeningSeat)
+            return;
+
         if (DialogueManager.Instance != null &&
             !DialogueManager.Instance.IsDialogueFinished)
         {
@@ -32,6 +38,9 @@ public class BenchCheckpoint : MonoBehaviour, IInteractable, IInteractionAvailab
 
     public void Interact()
     {
+        if (_isOpeningSeat)
+            return;
+
         if (_isSitting)
         {
             if (_isFullySeated) GetUp();
@@ -53,7 +62,17 @@ public class BenchCheckpoint : MonoBehaviour, IInteractable, IInteractionAvailab
     {
         if (_isSitting) return;
 
+        _isOpeningSeat = true;
         BeginSitting(saveCheckpoint: false);
+    }
+
+    /// <summary>
+    /// Allows the player to get up once the new-game Timeline and dialogue
+    /// have both completed.
+    /// </summary>
+    public void ReleaseOpeningSeat()
+    {
+        _isOpeningSeat = false;
     }
 
     private void BeginSitting(bool saveCheckpoint)

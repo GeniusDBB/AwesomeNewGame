@@ -97,9 +97,17 @@ public class PlayerMovement : MonoBehaviour
     //Player effects
     private PlayerEffects _effects;
 
-    //Frozen for dialogue system -> update/fixed update
+    // Frozen for dialogue system -> update/fixed update.
+    // The opening cinematic needs an independent lock because scene
+    // transitions also toggle the normal gameplay freeze state.
     private bool _isFrozen;
     private bool _ignoreGravityWhileFrozen;
+    private bool _gameplayFrozen;
+    private bool _gameplayFreezeIgnoresGravity;
+    private bool _openingCinematicFrozen;
+    private bool _openingCinematicIgnoresGravity;
+    private bool _cinematicFrozen;
+    private bool _cinematicFreezeIgnoresGravity;
 
     //OneWay Platform
     private Collider2D _ignoredPlatformCollider;
@@ -133,6 +141,11 @@ public class PlayerMovement : MonoBehaviour
     }
     private void Update()
     {
+        // Scripted walking supplies its own movement in FixedUpdate. Ignore
+        // player-driven jump, dash, and interaction state until it finishes.
+        if (_isCutsceneWalking)
+            return;
+
         if (_isFrozen)
         {
             LandCheck();
@@ -1277,10 +1290,47 @@ public class PlayerMovement : MonoBehaviour
 
     public void SetFrozen(bool frozen, bool ignoreGravity = false)
     {
-        _isFrozen = frozen;
-        _ignoreGravityWhileFrozen = frozen && ignoreGravity;
+        _gameplayFrozen = frozen;
+        _gameplayFreezeIgnoresGravity = frozen && ignoreGravity;
+        RefreshFrozenState();
+    }
 
-        if (frozen)
+    /// <summary>
+    /// A dedicated lock for the new-game opening. Scene transitions can clear
+    /// their normal freeze without allowing movement behind the Timeline.
+    /// </summary>
+    public void SetOpeningCinematicFrozen(
+        bool frozen,
+        bool ignoreGravity = false)
+    {
+        _openingCinematicFrozen = frozen;
+        _openingCinematicIgnoresGravity = frozen && ignoreGravity;
+        RefreshFrozenState();
+    }
+
+    /// <summary>
+    /// Keeps a scripted cinematic frozen even when a nested dialogue ends.
+    /// </summary>
+    public void SetCinematicFrozen(
+        bool frozen,
+        bool ignoreGravity = false)
+    {
+        _cinematicFrozen = frozen;
+        _cinematicFreezeIgnoresGravity = frozen && ignoreGravity;
+        RefreshFrozenState();
+    }
+
+    private void RefreshFrozenState()
+    {
+        _isFrozen = _gameplayFrozen ||
+                    _openingCinematicFrozen ||
+                    _cinematicFrozen;
+        _ignoreGravityWhileFrozen =
+            (_gameplayFrozen && _gameplayFreezeIgnoresGravity) ||
+            (_openingCinematicFrozen && _openingCinematicIgnoresGravity) ||
+            (_cinematicFrozen && _cinematicFreezeIgnoresGravity);
+
+        if (_isFrozen)
         {
             HorizontalVelocity = 0f;
             _jumpBufferTimer = 0f;

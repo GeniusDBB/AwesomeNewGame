@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 
 [DefaultExecutionOrder(-100)]
 public class AudioManager : MonoBehaviour
@@ -20,11 +21,14 @@ public class AudioManager : MonoBehaviour
     [SerializeField, Range(0f, 1f)]
     private float _defaultSFXVolume = 0.8f;
 
+
+
     public float MusicVolume { get; private set; }
     public float SFXVolume { get; private set; }
     public bool IsReady { get; private set; }
 
     public event Action OnVolumeChanged;
+
 
     private const string MusicKey = "Audio.MusicVolume";
     private const string SFXKey = "Audio.SFXVolume";
@@ -33,12 +37,17 @@ public class AudioManager : MonoBehaviour
     private AudioSource _sfxSource;
     private Coroutine _musicResumeRoutine;
     private bool _settingsDirty;
+    private bool _isPaused;
+
+
+    #region Setup
 
     [RuntimeInitializeOnLoadMethod(
         RuntimeInitializeLoadType.SubsystemRegistration)]
     private static void ResetStatics()
     {
         Instance = null;
+        AudioListener.pause = false;
     }
 
     private void Awake()
@@ -73,6 +82,16 @@ public class AudioManager : MonoBehaviour
         _sfxSource = CreateSource("SFX Source", _sfxGroup);
     }
 
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
     private AudioSource CreateSource(
         string objectName,
         AudioMixerGroup output)
@@ -96,6 +115,10 @@ public class AudioManager : MonoBehaviour
 
         IsReady = true;
     }
+
+    #endregion
+
+    #region Volume Settings
 
     public void SetMusicVolume(float value)
     {
@@ -137,6 +160,10 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    #endregion
+
+    #region Music Playback
+
     public void PlayMusic(AudioClip clip, bool loop = true)
     {
         if (!IsReady || clip == null) return;
@@ -152,7 +179,6 @@ public class AudioManager : MonoBehaviour
         AudioClip previousClip = _musicSource.clip;
         bool previousWasPlaying = _musicSource.isPlaying;
         bool previousLoop = _musicSource.loop;
-        float previousTime = _musicSource.time;
 
         CancelPendingMusicResume();
         PlayMusicInternal(clip, loop: false);
@@ -163,8 +189,7 @@ public class AudioManager : MonoBehaviour
                 ResumeMusicAfterClip(
                     clip,
                     previousClip,
-                    previousLoop,
-                    previousTime));
+                    previousLoop));
         }
     }
 
@@ -189,13 +214,22 @@ public class AudioManager : MonoBehaviour
     private IEnumerator ResumeMusicAfterClip(
         AudioClip temporaryClip,
         AudioClip previousClip,
-        bool previousLoop,
-        float previousTime)
+        bool previousLoop)
     {
         while (_musicSource != null &&
-               _musicSource.clip == temporaryClip &&
-               _musicSource.isPlaying)
+               _musicSource.clip == temporaryClip)
         {
+            // AudioListener.pause does not stop coroutines, so keep this
+            // handoff from advancing while the pause menu is open.
+            if (_isPaused)
+            {
+                yield return null;
+                continue;
+            }
+
+            if (!_musicSource.isPlaying)
+                break;
+
             yield return null;
         }
 
@@ -204,7 +238,10 @@ public class AudioManager : MonoBehaviour
             yield break;
 
         _musicResumeRoutine = null;
-        PlayMusicInternal(previousClip, previousLoop, previousTime);
+        // Unity 6 AudioResources are not always seekable AudioClips. Restart
+        // the previous track rather than reading AudioSource.time, which logs
+        // a warning for those resources.
+        PlayMusicInternal(previousClip, previousLoop);
     }
 
     private void CancelPendingMusicResume()
@@ -224,12 +261,46 @@ public class AudioManager : MonoBehaviour
         _musicSource.clip = null;
     }
 
+    #endregion
+
+    #region Sound Effects
+
     public void PlaySFX(AudioClip clip, float volume = 1f)
     {
         if (!IsReady || clip == null) return;
 
         _sfxSource.PlayOneShot(clip, Mathf.Clamp01(volume));
     }
+
+    /// <summary>
+    /// Clears both channels, such as when gameplay returns to the main menu.
+    /// </summary>
+    public void StopAllAudio()
+    {
+        StopMusic();
+        _sfxSource?.Stop();
+    }
+
+    #endregion
+
+    #region Pause Control
+
+    /// <summary>
+    /// Pauses every normal game AudioSource through Unity's global listener.
+    /// This preserves each source's playback position for a seamless resume.
+    /// </summary>
+    public void SetPaused(bool paused)
+    {
+        if (_isPaused == paused)
+            return;
+
+        _isPaused = paused;
+        AudioListener.pause = paused;
+    }
+
+    #endregion
+
+    #region Settings Persistence and Lifecycle
 
     public void SaveSettings()
     {
@@ -256,11 +327,23 @@ public class AudioManager : MonoBehaviour
         SaveSettings();
     }
 
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name != "MainMenu")
+            return;
+
+        SetPaused(false);
+        StopAllAudio();
+    }
+
     private void OnDestroy()
     {
         if (Instance != this) return;
 
+        SetPaused(false);
         SaveSettings();
         Instance = null;
     }
+
+    #endregion
 }
