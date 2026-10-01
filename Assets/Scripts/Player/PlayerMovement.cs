@@ -130,6 +130,8 @@ public class PlayerMovement : MonoBehaviour
     private bool _isCutsceneWalking;
     private Vector2 _cutsceneMoveInput;
 
+    public bool CanLookAround => !_isFrozen && !_isCutsceneWalking;
+
     private void Awake()
     {
         _isFacingRight = true;

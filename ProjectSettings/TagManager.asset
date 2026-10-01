@@ -15,7 +15,7 @@ TagManager:
   - Interactable
   - OneWayPlatform
   - Player
-  - 
+  - Landscape
   - 
   - 
   - 
@@ -38,6 +38,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Landscape
+    uniqueID: 829201755
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0

@@ -1,9 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
-public class WindZone : MonoBehaviour
+public class WindAudioZone : MonoBehaviour
 {
     [SerializeField] private AudioSource windAudio;
     [SerializeField, Range(0f, 1f)] private float targetVolume = 0.4f;
@@ -12,7 +11,10 @@ public class WindZone : MonoBehaviour
     private readonly HashSet<Collider2D> playerColliders =
         new HashSet<Collider2D>();
 
-    private Coroutine fadeRoutine;
+    private bool isFading;
+    private float fadeElapsed;
+    private float fadeStartVolume;
+    private float fadeTargetVolume;
 
     private void Reset()
     {
@@ -72,8 +74,18 @@ public class WindZone : MonoBehaviour
 
     private void FadeTo(float volume)
     {
-        if (fadeRoutine != null)
-            StopCoroutine(fadeRoutine);
+        // Trigger exit events can be raised while this zone is being disabled.
+        // An inactive GameObject cannot start a coroutine.
+        if (!isActiveAndEnabled || windAudio == null)
+            return;
+
+        // An exit can be reported during Intro's startup cleanup before this
+        // zone has ever played. There is nothing to fade in that case.
+        if (volume <= 0f && !windAudio.isPlaying)
+        {
+            windAudio.volume = 0f;
+            return;
+        }
 
         if (volume > 0f && !windAudio.isPlaying)
         {
@@ -81,31 +93,33 @@ public class WindZone : MonoBehaviour
             windAudio.Play();
         }
 
-        fadeRoutine = StartCoroutine(FadeRoutine(volume));
+        fadeStartVolume = windAudio.volume;
+        fadeTargetVolume = Mathf.Clamp01(volume);
+        fadeElapsed = 0f;
+        isFading = true;
     }
 
-    private IEnumerator FadeRoutine(float target)
+    private void Update()
     {
-        float start = windAudio.volume;
-        float elapsed = 0f;
+        if (!isFading || windAudio == null)
+            return;
 
-        while (elapsed < fadeDuration)
-        {
-            elapsed += Time.deltaTime;
-            windAudio.volume = Mathf.Lerp(start, target, elapsed / fadeDuration);
-            yield return null;
-        }
+        fadeElapsed += Time.deltaTime;
+        float progress = Mathf.Clamp01(fadeElapsed / fadeDuration);
+        windAudio.volume = Mathf.Lerp(fadeStartVolume, fadeTargetVolume, progress);
 
-        windAudio.volume = target;
+        if (progress < 1f)
+            return;
 
-        if (target <= 0f)
+        isFading = false;
+
+        if (fadeTargetVolume <= 0f)
             windAudio.Stop();
-
-        fadeRoutine = null;
     }
 
     private void OnDisable()
     {
+        isFading = false;
         playerColliders.Clear();
 
         if (windAudio != null)

@@ -7,6 +7,7 @@ public class InputManager : MonoBehaviour
     public static PlayerInput PlayerInput;
 
     public static Vector2 Movement;
+    public static Vector2 CameraLook;
     public static bool JumpWasPressed;
     public static bool JumpIsHeld;
     public static bool JumpWasReleased;
@@ -22,6 +23,7 @@ public class InputManager : MonoBehaviour
     private static int _ignoreInputThroughFrame = -1;
 
     private InputAction _moveAction;
+    private InputAction _lookAction;
     private InputAction _jumpAction;
     private InputAction _runAction;
     private InputAction _dashAction;
@@ -34,6 +36,7 @@ public class InputManager : MonoBehaviour
         PlayerInput = GetComponent<PlayerInput>();
 
         _moveAction = PlayerInput.actions["Player/Move"];
+        _lookAction = PlayerInput.actions["Player/Look"];
         _jumpAction = PlayerInput.actions["Player/Jump"];
         _runAction = PlayerInput.actions["Player/Run"];
         _dashAction = PlayerInput.actions["Player/Dash"];
@@ -76,6 +79,7 @@ public class InputManager : MonoBehaviour
         }
 
         Movement = _moveAction.ReadValue<Vector2>();
+        CameraLook = _lookAction.ReadValue<Vector2>();
 
         JumpWasPressed = _jumpAction.WasPressedThisFrame();
         JumpIsHeld = _jumpAction.IsPressed();
@@ -122,6 +126,7 @@ public class InputManager : MonoBehaviour
     private static void ClearGameplayInput()
     {
         Movement = Vector2.zero;
+        CameraLook = Vector2.zero;
         JumpWasPressed = false;
         JumpIsHeld = false;
         JumpWasReleased = false;
